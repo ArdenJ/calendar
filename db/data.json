@@ -2,8 +2,23 @@
   "todos": [
     {
       "id": "123",
-      "title": "A thing",
-      "date": "a string"
+      "title": "NEW TITLE",
+      "date": "DATEASSTRING"
+    },
+    {
+      "id": "1234",
+      "title": "A second thing",
+      "date": "a string too"
+    },
+    {
+      "id": "fcea75fed0084f13351f",
+      "title": "new todo",
+      "date": "25.01.2020"
+    },
+    {
+      "id": "028f54f7bb0d4fbf70cc",
+      "title": "newer todo",
+      "date": "25.01.2020"
     }
   ]
 }
