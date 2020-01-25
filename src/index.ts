@@ -15,6 +15,8 @@ const typeDefs = gql`
 
   type Query {
     events: [EVENT!]!
+    eventsByMonth(date: String!): [EVENT]!
+    eventsByDay(date: String!): [EVENT]!
     event(id: String!): EVENT!
   }
 
@@ -38,6 +40,22 @@ const resolvers = {
       return fetch(db)
         .then(res => res.json())
         .then(data => data.find(i => i.id === id))
+        .then(data => data)
+        .catch(err => console.log(err))
+    },
+    eventsByMonth: (root, { date }, { db }, info) => {
+      return fetch(db)
+        .then(res => res.json())
+        .then(data =>
+          data.filter(i => i.date.substr(3, 9) === date.substr(3, 9)),
+        )
+        .then(data => data)
+        .catch(err => console.log(err))
+    },
+    eventsByDay: (root, { date }, { db }, info) => {
+      return fetch(db)
+        .then(res => res.json())
+        .then(data => data.filter(i => i.date === date))
         .then(data => data)
         .catch(err => console.log(err))
     },
