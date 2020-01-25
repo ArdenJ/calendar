@@ -1,4 +1,4 @@
-const { gql } = require("apollo-server");
+const { gql } = require('apollo-server')
 
 export const typeDefs = gql`
   type ToDo {
@@ -10,4 +10,4 @@ export const typeDefs = gql`
   type Query {
     ToDos: [ToDo!]!
   }
-`;
+`

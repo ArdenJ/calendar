@@ -1,14 +1,15 @@
 {
   "name": "calendar",
   "version": "1.0.0",
-  "description": "",
+  "description": "calendar app created with React and Apollo",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prod": "cross-env NODE_ENV=prod npm run build",
     "dev": "cross-env NODE_ENV=dev npm run build",
     "build": "cross-env-shell webpack --config webpack.$NODE_ENV.js",
-    "start": "node dist/server"
+    "start": "node dist/server",
+    "jsonserv": "json-server --watch db/data.json --port 3001"
   },
   "repository": {
     "type": "git",
@@ -53,6 +54,10 @@
   },
   "dependencies": {
     "apollo-server": "^2.9.16",
-    "graphql": "^14.5.8"
+    "graphql": "^14.5.8",
+    "json-server": "^0.15.1",
+    "node-fetch": "^2.6.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   }
 }
