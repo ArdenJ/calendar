@@ -5,7 +5,12 @@ module.exports = {
     rules: [
       {
         exclude: [path.resolve(__dirname, 'node_modules')],
-        test: /\.ts$/,
+        test: [/\.ts$/, /\.tsx$/, /\.js$/, /\.jsx$/],
+        use: 'babel-loader',
+      },
+      {
+        exclude: [path.resolve(__dirname, 'node_modules')],
+        test: [/\.ts$/, /\.tsx$/],
         use: 'ts-loader',
       },
     ],
@@ -19,7 +24,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.tsx', '.js'],
   },
   target: 'node',
 }

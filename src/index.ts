@@ -128,7 +128,7 @@ const server = new ApolloServer({
   resolvers,
   context: () => ({
     id: crypto.randomBytes(10).toString('hex'),
-    db: `${jsonServ}todos`,
+    db: `${jsonServ}events`,
   }),
   introspection: true,
   playground: true,
