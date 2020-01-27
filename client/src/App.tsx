@@ -2,15 +2,16 @@ import React from 'react'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { ThemeProvider } from 'styled-components'
-import { DateProvider, useMonthState } from './contexts/date.context'
+import { DateProvider, NEXT, BACK } from './contexts/date.context'
 
 import { theme } from './styling/theme'
 import { GlobalStyles } from './styling/global'
 
-//Components
+//Compon./contexts/dateNav.context
 import Grid from './components/Grid/Grid'
 import Card from './components/Card/Card'
 import Date from './components/Date/Date'
+import Button from './components/Button/Button'
 
 const App: React.FC = () => {
   return (
@@ -19,11 +20,12 @@ const App: React.FC = () => {
         <ThemeProvider theme={theme}>
           <GlobalStyles />
           <div className="App">
+            <Button click={NEXT}>NEXT</Button>
+            <Button click={BACK}>BACK</Button>
             <Date />
             <Grid>
               <Card>prop</Card>
             </Grid>
-            <button>Button</button>
           </div>
         </ThemeProvider>
       </ApolloProvider>

@@ -1,7 +1,6 @@
 const { gql, ApolloServer } = require('apollo-server')
 const crypto = require('crypto')
 const fetch = require('node-fetch')
-
 // import { typeDefs } from './typeDefs'
 // import { resolvers } from './resolvers';
 

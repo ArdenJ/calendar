@@ -1,21 +1,14 @@
 import React, { useReducer } from 'react'
 import moment, { Moment } from 'moment'
 
-interface IMoment extends Moment {
-  state: string | unknown
-}
 type Action = { type: 'next' } | { type: 'back' }
 type Dispatch = (action: Action) => void
-type State = { date: string | Moment }
+type State = { date: number }
 type DateProviderProps = { children: React.ReactNode }
 
-const initialDate = moment().format('YYYY-MM-DD')
 const NEXT = 'next'
 const BACK = 'back'
-// This is hacky and I hate it but TS was being a pig about the type being Unknown..
-const MonthStateContext = React.createContext<State | undefined | any>(
-  undefined,
-)
+const MonthStateContext = React.createContext<State | undefined>(undefined)
 const MonthDispatchContext = React.createContext<Dispatch | undefined>(
   undefined,
 )
@@ -23,16 +16,18 @@ const MonthDispatchContext = React.createContext<Dispatch | undefined>(
 function monthReducer(state: State, action: Action) {
   switch (action.type) {
     case NEXT: {
-      return { date: moment(state.date, 'YYYY-MM-DD').add(1, 'months') }
+      return {
+        date: state.date + 1,
+      }
     }
     case BACK: {
-      return { date: moment(state.date, 'YYYY-MM-DD').add(-1, 'months') }
+      return { date: state.date - 1 }
     }
   }
 }
 
-const DateProvider = ({ children }: DateProviderProps) => {
-  const [state, dispatch] = useReducer<any>(monthReducer, { date: initialDate })
+function DateProvider({ children }: DateProviderProps) {
+  const [state, dispatch] = useReducer(monthReducer, { date: 0 })
   return (
     <MonthStateContext.Provider value={state}>
       <MonthDispatchContext.Provider value={dispatch}>
@@ -45,16 +40,26 @@ const DateProvider = ({ children }: DateProviderProps) => {
 function useMonthState() {
   const context = React.useContext(MonthStateContext)
   if (context === undefined) {
-    throw new Error('useCountState must be used within a DateProvider')
-  }
-  return context
-}
-function useMonthDispatch() {
-  const context = React.useContext(MonthDispatchContext)
-  if (context === undefined) {
-    throw new Error('useMonthDispatch must be used within a DateProvider')
+    throw new Error('useMonthState must be used within a MonthProvider')
   }
   return context
 }
 
-export { DateProvider, useMonthState, useMonthDispatch }
+function useMonthDispatch() {
+  const context = React.useContext(MonthDispatchContext)
+  if (context === undefined) {
+    throw new Error('useMonthDispatch must be used within a MonthProvider')
+  }
+  return context
+}
+
+function useDate() {
+  const { date } = useMonthState()
+  const DATE = moment()
+    .add(date, 'months')
+    .format('YYYY-MM-DD')
+
+  return DATE
+}
+
+export { DateProvider, useMonthState, useMonthDispatch, useDate, NEXT, BACK }
