@@ -4,9 +4,9 @@ tldr: this is a to-do list attached to some form of calendar
 
 ## Getting Started
 
-The setup is currently a little fiddley. After cloning the repo, open the
-project and run 'npm i' in the root directory. Then cd into the client and run
-npm i again. THEN:
+The setup is currently a little fiddly. After cloning the repo, open the project
+and run 'npm i' in the root directory. Then cd into the client and run npm i
+again. THEN:
 
 First terminal:
 
