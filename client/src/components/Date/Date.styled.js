@@ -7,7 +7,5 @@ export const StyledDate = styled.div`
   height: 100%;
   width: 100%;
   box-shadow: 0 0 2px 0 black;
-  border-radius: 8px;
-  padding: 1rem;
   margin: auto;
 `

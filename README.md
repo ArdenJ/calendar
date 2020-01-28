@@ -36,6 +36,8 @@ npm start //starts the client on 3000
 
 A live demo of the project will be available on Codesanbox [here](#).
 
+![Project as of 28 Jan](./images/28Jan.jpg)
+
 ## Minimum requirements
 
 - On loading the app renders a calendar displaying the present month with any

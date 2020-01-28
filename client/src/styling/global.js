@@ -24,6 +24,8 @@ export const GlobalStyles = createGlobalStyle`
         justify-content: center;
         text-rendering: optimizeLegibility;
         line-height: 1.5;
+        background-color: #efefef;
+        background-image: linear-gradient(40deg, #5f72bd 0%, #9b23ea 100%);
     }
     
     h1, h2, h3, h4, h5, h6 {

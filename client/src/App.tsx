@@ -2,14 +2,15 @@ import React from 'react'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { ThemeProvider } from 'styled-components'
-import { DateProvider, NEXT, BACK } from './contexts/date.context'
+import { DateProvider } from './contexts/date.context'
 
 import { theme } from './styling/theme'
 import { GlobalStyles } from './styling/global'
 
-import Date from './components/Date/Date'
-import Button from './components/Button/Button'
-import CalendarBody from './components/CalendarBody/CalendarBody'
+import Wrapper from './components/Wrapper/Wrapper'
+import Header from './components/Header/Header'
+import Summary from './components/Summary/Summary'
+import Calendar from './components/Calendar/Calendar'
 
 const App: React.FC = () => {
   return (
@@ -18,10 +19,15 @@ const App: React.FC = () => {
         <ThemeProvider theme={theme}>
           <GlobalStyles />
           <div className="App">
-            <Date />
-            <Button click={BACK}>BACK</Button>
-            <Button click={NEXT}>NEXT</Button>
-            <CalendarBody />
+            <Wrapper>
+              <Header>
+                <>HEADER</>
+              </Header>
+              <div className="calendar">
+                <Calendar />
+              </div>
+              <Summary>SUMMARY</Summary>
+            </Wrapper>
           </div>
         </ThemeProvider>
       </ApolloProvider>
