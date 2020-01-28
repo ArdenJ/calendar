@@ -10,7 +10,7 @@ export const StyledGrid = styled.section`
   padding: 1rem;
 
   grid-template-areas: 'sun mon tue wed thu fri sat';
-  grid-template-rows: 2.4rem 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 2.4rem 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 
   .heading {

@@ -7,11 +7,9 @@ import { DateProvider, NEXT, BACK } from './contexts/date.context'
 import { theme } from './styling/theme'
 import { GlobalStyles } from './styling/global'
 
-//Compon./contexts/dateNav.context
-import Grid from './components/Grid/Grid'
-import Card from './components/Card/Card'
 import Date from './components/Date/Date'
 import Button from './components/Button/Button'
+import CalendarBody from './components/CalendarBody/CalendarBody'
 
 const App: React.FC = () => {
   return (
@@ -20,12 +18,10 @@ const App: React.FC = () => {
         <ThemeProvider theme={theme}>
           <GlobalStyles />
           <div className="App">
-            <Button click={NEXT}>NEXT</Button>
-            <Button click={BACK}>BACK</Button>
             <Date />
-            <Grid>
-              <Card>prop</Card>
-            </Grid>
+            <Button click={BACK}>BACK</Button>
+            <Button click={NEXT}>NEXT</Button>
+            <CalendarBody />
           </div>
         </ThemeProvider>
       </ApolloProvider>

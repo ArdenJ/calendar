@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react'
-import moment, { Moment } from 'moment'
+import moment from 'moment'
 
 type Action = { type: 'next' } | { type: 'back' }
 type Dispatch = (action: Action) => void
