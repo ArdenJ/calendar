@@ -47,8 +47,8 @@ A live demo of the project will be available on Codesanbox [here](#).
 - The date context should indicate to the calendar how many date cards should be
   returned
 - Each individual date card should contain:
-- - The date
-- - Any events returned from the GQL endpoint
+  - The date
+  - Any events returned from the GQL endpoint
 
 ## At present
 
@@ -57,6 +57,7 @@ A live demo of the project will be available on Codesanbox [here](#).
 - On load, the client renders with the present date displayed
 - I use the 'next' and 'back' buttons to change the month and year displayed on
   the simple date component
+- The body of the calendar displays events
 
 ## Built With
 
