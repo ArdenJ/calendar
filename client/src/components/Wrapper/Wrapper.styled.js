@@ -9,8 +9,13 @@ export const StyledWrapper = styled.section`
   height: 100vh;
   width: 100vw;
   grid-template-columns: 30vw 70vw;
+  grid-template-rows: 5rem auto;
 
   .calendar {
     grid-area: calendar;
+  }
+
+  .summary {
+    display: grid;
   }
 `

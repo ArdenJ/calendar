@@ -23,10 +23,12 @@ const App: React.FC = () => {
               <Header>
                 <>HEADER</>
               </Header>
+              <div className="summary">
+                <Summary>SUMMARY</Summary>
+              </div>
               <div className="calendar">
                 <Calendar />
               </div>
-              <Summary>SUMMARY</Summary>
             </Wrapper>
           </div>
         </ThemeProvider>
