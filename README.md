@@ -36,7 +36,7 @@ npm start //starts the client on 3000
 
 A live demo of the project will be available on Codesanbox [here](#).
 
-![Project as of 28 Jan](./images/28Jan.jpg)
+![Project as of 30 Jan](./images/30Jan.jpg)
 
 ## Minimum requirements
 
