@@ -1,5 +1,7 @@
 import React, { useReducer } from 'react'
 import moment from 'moment'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
 
 type Action = { type: 'next' } | { type: 'back' }
 type Dispatch = (action: Action) => void
@@ -8,6 +10,8 @@ type DateProviderProps = { children: React.ReactNode }
 
 const NEXT = 'next'
 const BACK = 'back'
+const DAY = 'day'
+const MONTH = 'month'
 const MonthStateContext = React.createContext<State | undefined>(undefined)
 const MonthDispatchContext = React.createContext<Dispatch | undefined>(
   undefined,
@@ -62,4 +66,48 @@ function useDate() {
   return DATE
 }
 
-export { DateProvider, useMonthState, useMonthDispatch, useDate, NEXT, BACK }
+function useEvents(scope: string) {
+  let returnedData: any
+  const date = useDate()
+  const QUERY = scope === DAY ? QUERY_EVENTS_ON_DAY : QUERY_EVENTS_ON_MONTH
+  const { loading, error, data } = useQuery(QUERY, {
+    variables: { DATE: date },
+  })
+  if (loading) console.log('loading')
+  if (error || !loading) console.log(error)
+  returnedData = data
+  return returnedData
+}
+
+export {
+  DateProvider,
+  useMonthState,
+  useMonthDispatch,
+  useDate,
+  useEvents,
+  NEXT,
+  BACK,
+  DAY,
+  MONTH,
+}
+
+// QUERIES
+const QUERY_EVENTS_ON_MONTH = gql`
+  query($DATE: String!) {
+    eventsByMonth(date: $DATE) {
+      id
+      title
+      date
+    }
+  }
+`
+
+const QUERY_EVENTS_ON_DAY = gql`
+  query($DATE: String!) {
+    eventsByDay(date: $DATE) {
+      id
+      title
+      date
+    }
+  }
+`
