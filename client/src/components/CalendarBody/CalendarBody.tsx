@@ -6,33 +6,17 @@ import { useQuery } from '@apollo/react-hooks'
 import Grid from '../Grid/Grid'
 import Card from '../Card/Card'
 
+import { getStartDate, getAdditionalDays } from '../../utils/monthFormatModule'
+
 import { useDate, useEvents } from '../../contexts/date.context'
 
 const CalendarBody = (): any => {
   let firstDay = `01-${moment(useDate()).format('MM-YYYY')}`
 
-  function findSunday() {
-    let firstSun: string
-    let sun = moment(firstDay, 'DD-MM-YYYY').format('ddd')
-    let i = 1
-    if (sun === 'Sun') {
-      firstSun = firstDay
-      return firstSun
-    } else {
-      do {
-        i = i++
-        firstDay = `${moment(firstDay, 'DD-MM-YYYY')
-          .add(-i, 'days')
-          .format('DD-MM-YYYY')}`
-        firstSun = firstDay
-        sun = moment(firstSun, 'DD-MM-YYYY').format('ddd')
-      } while (sun !== 'Sun')
-      return firstSun // This should be a date string in format of (DD-MM-YYYY)
-    }
-  }
-
   const MonthInView = () => {
-    const start = moment(findSunday(), 'DD-MM-YYYY')
+    const start = moment(getStartDate(firstDay), 'DD-MM-YYYY')
+    const additionalDays = getAdditionalDays(firstDay)
+    debugger
 
     const date = moment(useDate()).format('DD-MM-YYYY')
     let { loading, error, data } = useQuery(QUERY_EVENTS_ON_MONTH, {
@@ -46,10 +30,11 @@ const CalendarBody = (): any => {
       .map((_, index) => {
         const EVENTS = data.eventsByMonth.filter((i: any) => {
           return (
-            moment(i.date, 'DD-MM-YYYY').format('D') === (index + 1).toString()
+            moment(i.date, 'DD-MM-YYYY').format('D') ===
+            (index + 1 + additionalDays).toString()
           )
         })
-        return [index + 1, ...EVENTS]
+        return [index + 1 + additionalDays, ...EVENTS]
       })
 
     const FilledCards = arr.map((_, index) => {
