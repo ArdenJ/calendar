@@ -42,7 +42,7 @@ const CalendarBody = (): any => {
           key={`Card_${index}`}
           date={moment(start)
             .add(index, 'days')
-            .format('ddd-DD-MM')}
+            .format('DD-MM-YYYY')}
           events={arr[index][1]}
         />
       )
