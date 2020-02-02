@@ -1,6 +1,4 @@
 import React from 'react'
-import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
 import moment from 'moment'
 
 import { useEventContext } from '../../contexts/event.context'
@@ -44,13 +42,3 @@ export default function Card(props: any): JSX.Element {
     </StyledCard>
   )
 }
-
-const QUERY_EVENTS_ON_DAY = gql`
-  query($DATE: String!) {
-    eventsByDay(date: $DATE) {
-      id
-      title
-      date
-    }
-  }
-`
