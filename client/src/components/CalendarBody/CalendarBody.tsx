@@ -16,7 +16,6 @@ const CalendarBody = (): any => {
   const MonthInView = () => {
     const start = moment(getStartDate(firstDay), 'DD-MM-YYYY')
     const additionalDays = getAdditionalDays(firstDay)
-    debugger
 
     const date = moment(useDate()).format('DD-MM-YYYY')
     let { loading, error, data } = useQuery(QUERY_EVENTS_ON_MONTH, {
@@ -34,7 +33,7 @@ const CalendarBody = (): any => {
             (index + 1 + additionalDays).toString()
           )
         })
-        return [index + 1 + additionalDays, ...EVENTS]
+        return [index + 1 + additionalDays, [...EVENTS]]
       })
 
     const FilledCards = arr.map((_, index) => {

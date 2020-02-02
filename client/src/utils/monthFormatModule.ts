@@ -24,7 +24,6 @@ const monthFormatModule = (function() {
     if (sun === 'Sun') {
       _firstSun = firstDay
       _additionalDays = 1
-      debugger
       return { _firstSun, _additionalDays }
     } else {
       do {
@@ -34,7 +33,6 @@ const monthFormatModule = (function() {
         let days = moment(firstDay, 'DD-MM-YYYY').diff(start, 'days')
         _firstSun = firstDay
         _additionalDays = days
-        debugger
         sun = moment(_firstSun, 'DD-MM-YYYY').format('ddd')
       } while (sun !== 'Sun')
       return { _firstSun, _additionalDays }

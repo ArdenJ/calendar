@@ -2,18 +2,25 @@ import React from 'react'
 
 import { StyledCard } from './Card.styled'
 
-export default function Card(props: any): JSX.Element {
-  const { events, date, id } = props
+interface IEventObj {
+  id: string
+  title: string
+  date: string
+}
 
-  const EventList: any = () => {
-    if (events !== undefined && (events.title !== undefined) === true) {
-      // const eventArr: JSX.Element[] = events.title.forEach(
-      //   (i: string, index: number) => {
-      //     return <li key={index}>{i}</li>
-      //   },
-      // )
-      // return <ul>{eventArr}</ul>
-      return <li>{events.title}</li>
+export default function Card(props: any): JSX.Element {
+  const { events, date } = props
+
+  const EventList: React.FC = () => {
+    if (events !== undefined && events.length > 0 === true) {
+      const eventArr: JSX.Element[] = events.map(
+        (i: IEventObj, index: number) => {
+          return <li key={index}>{i.title}</li>
+        },
+      )
+      debugger
+      return <ul>{eventArr}</ul>
+      // return <li>{events.title}</li>
     } else {
       return <React.Fragment />
     }
