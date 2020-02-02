@@ -1,4 +1,7 @@
 import React from 'react'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
+import { useEventContext } from '../../contexts/event.context'
 
 import { StyledCard } from './Card.styled'
 
@@ -10,6 +13,7 @@ interface IEventObj {
 
 export default function Card(props: any): JSX.Element {
   const { events, date } = props
+  const { setDate } = useEventContext()
 
   const EventList: React.FC = () => {
     if (events !== undefined && events.length > 0 === true) {
@@ -20,16 +24,25 @@ export default function Card(props: any): JSX.Element {
       )
       debugger
       return <ul>{eventArr}</ul>
-      // return <li>{events.title}</li>
     } else {
       return <React.Fragment />
     }
   }
   return (
-    <StyledCard>
+    <StyledCard onClick={() => setDate({ date: date })}>
       <>{date}</>
       <br />
       <EventList />
     </StyledCard>
   )
 }
+
+const QUERY_EVENTS_ON_DAY = gql`
+  query($DATE: String!) {
+    eventsByDay(date: $DATE) {
+      id
+      title
+      date
+    }
+  }
+`
