@@ -40,15 +40,15 @@ A live demo of the project will be available on Codesanbox [here](#).
 
 ## Minimum requirements
 
-- On loading the app renders a calendar displaying the present month with any
-  events rendered on the appropriate date
-- As a user I can navigate between months using the UI
+- ~~On loading the app renders a calendar displaying the present month with any
+  events rendered on the appropriate date~~
+- ~~As a user I can navigate between months using the UI~~
 - As a user I can Create, Read, Update, and Delete events via the the UI
-- The date context should indicate to the calendar how many date cards should be
-  returned
+- ~~The date context should indicate to the calendar how many date cards should
+  be returned~~
 - Each individual date card should contain:
-  - The date
-  - Any events returned from the GQL endpoint
+  - ~~The date~~
+  - ~~Any events returned from the GQL endpoint~~
 
 ## At present
 
@@ -58,6 +58,7 @@ A live demo of the project will be available on Codesanbox [here](#).
 - I use the 'next' and 'back' buttons to change the month and year displayed on
   the simple date component
 - The body of the calendar displays events
+- Clicking a particular date in the calendar will bring up an expanded summary
 
 ## Built With
 
