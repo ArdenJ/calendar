@@ -6,10 +6,6 @@ import { useEventContext } from '../../contexts/event.context'
 
 import { StyledSummary } from './Summary.styled'
 
-interface INode {
-  value: string
-}
-
 const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
   const dateCtx = useEventContext().date.date
 
@@ -29,37 +25,26 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
     }
   }
 
+  // FIXME: Network error: Response not successful: Received status code 400
+  // TODO: Implement better error handling, and solve above error
+  //  TODO: Caching!
   const CreateEvent = () => {
-    const [createEvent, { data }] = useMutation(MUTATION_ADD_EVENT)
+    const [createEvent] = useMutation(MUTATION_ADD_EVENT)
     const [value, setValue] = useState('')
     let input: any
-
-    // const [createEvent, { data }] = useMutation(MUTATION_ADD_EVENT,
-    //   {
-    //     update(cache, { data: { createEvent } }) {
-    //       const currentEvents = cache.readQuery({ query: QUERY_EVENTS_ON_DAY, variables: { date: dateCtx}});
-    //       cache.writeQuery({
-    //         query: QUERY_EVENTS_ON_DAY,
-    //         variables: { date: dateCtx},
-    //         data: { eventsByDay: currentEvents.concat([createEvent]) },
-    //       });
-    //     }
-    //   })
-
-    function handleChange(e: any) {
-      setValue(e.value)
-      return value
-    }
 
     return (
       <div>
         <form
           onSubmit={e => {
             e.preventDefault()
+            console.log(input.value, dateCtx)
             createEvent({ variables: { title: input.value, date: dateCtx } })
             input.value = ''
           }}>
           <input
+            value={value}
+            onChange={e => setValue(e.target.value)}
             ref={node => {
               input = node
             }}
@@ -94,7 +79,7 @@ const QUERY_EVENTS_ON_DAY = gql`
 
 const MUTATION_ADD_EVENT = gql`
   mutation($TITLE: String!, $DATE: String!) {
-    createEvent(title: $TITLE, date: $DATE) {
+    createEVENT(title: $TITLE, date: $DATE) {
       title
       date
     }
