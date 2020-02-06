@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, ComponentProps } from 'react'
 import gql from 'graphql-tag'
 import { onError } from 'apollo-link-error'
 import { useQuery, useMutation } from '@apollo/react-hooks'
@@ -18,7 +18,12 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
     if (error || !loading) console.log(error)
     if (data.eventsByDay !== undefined) {
       const events: JSX.Element[] = data.eventsByDay.map((i: any) => {
-        return <h2>{i.title}</h2>
+        return (
+          <h2>
+            {i.title}
+            <RemoveEvent id={i.id} />
+          </h2>
+        )
       })
       return <>{events}</>
     } else {
@@ -56,6 +61,25 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
     )
   }
 
+  const RemoveEvent = (props: any): JSX.Element => {
+    const [removeEvent] = useMutation(MUTATION_DELETE_EVENT)
+
+    return (
+      <div>
+        <button
+          onClick={() => {
+            console.log(props.id)
+            removeEvent({ variables: { id: props.id } }).then(
+              res => console.log(res),
+              err => console.log(err),
+            )
+          }}>
+          x
+        </button>
+      </div>
+    )
+  }
+
   return (
     <StyledSummary>
       <h1>{dateCtx}</h1>
@@ -83,6 +107,14 @@ const MUTATION_ADD_EVENT = gql`
     createEVENT(title: $title, date: $date) {
       title
       date
+    }
+  }
+`
+
+const MUTATION_DELETE_EVENT = gql`
+  mutation($id: String!) {
+    deleteEVENT(id: $id) {
+      title
     }
   }
 `

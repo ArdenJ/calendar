@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const StyledSummary = styled.section`
   box-sizing: border-box;
   margin: 5rem auto auto;
-  width: 65%;
+  width: 72%;
   padding: 2rem;
   background-color: white;
   border-radius: 12px;
