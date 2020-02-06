@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import gql from 'graphql-tag'
+import { onError } from 'apollo-link-error'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 
 import { useEventContext } from '../../contexts/event.context'
@@ -25,21 +26,21 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
     }
   }
 
-  // FIXME: Network error: Response not successful: Received status code 400
-  // TODO: Implement better error handling, and solve above error
   //  TODO: Caching!
   const CreateEvent = () => {
-    const [createEvent] = useMutation(MUTATION_ADD_EVENT)
-    const [value, setValue] = useState('')
     let input: any
+    const [value, setValue] = useState('')
+    const [createEvent] = useMutation(MUTATION_ADD_EVENT)
 
     return (
       <div>
         <form
           onSubmit={e => {
             e.preventDefault()
-            console.log(input.value, dateCtx)
-            createEvent({ variables: { title: input.value, date: dateCtx } })
+            createEvent({ variables: { title: value, date: dateCtx } }).then(
+              res => console.log(res),
+              err => console.log(err),
+            )
             input.value = ''
           }}>
           <input
@@ -78,8 +79,8 @@ const QUERY_EVENTS_ON_DAY = gql`
 `
 
 const MUTATION_ADD_EVENT = gql`
-  mutation($TITLE: String!, $DATE: String!) {
-    createEVENT(title: $TITLE, date: $DATE) {
+  mutation($title: String!, $date: String!) {
+    createEVENT(title: $title, date: $date) {
       title
       date
     }
