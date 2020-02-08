@@ -1,11 +1,27 @@
-import React, { useState, ComponentProps } from 'react'
-import gql from 'graphql-tag'
-import { onError } from 'apollo-link-error'
+import React, { useState, useRef } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
+import crypto from 'crypto'
 
 import { useEventContext } from '../../contexts/event.context'
 
+import {
+  QUERY_EVENTS_ON_DAY,
+  QUERY_EVENTS_ON_MONTH,
+  MUTATION_ADD_EVENT,
+  MUTATION_DELETE_EVENT,
+} from '../../queries/queries'
+
 import { StyledSummary } from './Summary.styled'
+
+function genId(): string {
+  return crypto.randomBytes(10).toString('hex')
+}
+
+function remove(arr: any[], value: any[]) {
+  return arr.filter((i: any) => {
+    return i !== value
+  })
+}
 
 const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
   const dateCtx = useEventContext().date.date
@@ -17,32 +33,59 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
     if (loading) return <>loading...</>
     if (error || !loading) console.log(error)
     if (data.eventsByDay !== undefined) {
-      const events: JSX.Element[] = data.eventsByDay.map((i: any) => {
-        return (
-          <h2>
-            {i.title}
-            <RemoveEvent id={i.id} />
-          </h2>
-        )
-      })
+      const events: JSX.Element[] = data.eventsByDay.map(
+        (i: any, index: number) => {
+          return (
+            <h2 key={index}>
+              {i.title}
+              <RemoveEvent id={i.id} />
+            </h2>
+          )
+        },
+      )
       return <>{events}</>
     } else {
       return <></>
     }
   }
 
-  //  TODO: Caching!
   const CreateEvent = () => {
     let input: any
     const [value, setValue] = useState('')
-    const [createEvent] = useMutation(MUTATION_ADD_EVENT)
+
+    // TODO: Abstract the cache update...
+    const [createEvent] = useMutation(MUTATION_ADD_EVENT, {
+      update(store, { data: { createEVENT } }) {
+        const newEvent = [createEVENT]
+        const allEventsOnDay: any = store.readQuery({
+          query: QUERY_EVENTS_ON_DAY,
+          variables: { DATE: dateCtx },
+        })
+        console.log(allEventsOnDay)
+        console.log(newEvent)
+        debugger
+        store.writeQuery({
+          query: QUERY_EVENTS_ON_DAY,
+          variables: { DATE: dateCtx },
+          data: { eventsByDay: allEventsOnDay.eventsByDay.concat(newEvent) },
+        })
+      },
+      refetchQueries: [
+        {
+          query: QUERY_EVENTS_ON_MONTH,
+          variables: { DATE: dateCtx },
+        },
+      ],
+    })
 
     return (
       <div>
         <form
           onSubmit={e => {
             e.preventDefault()
-            createEvent({ variables: { title: value, date: dateCtx } }).then(
+            createEvent({
+              variables: { title: value, date: dateCtx, id: genId() },
+            }).then(
               res => console.log(res),
               err => console.log(err),
             )
@@ -62,7 +105,29 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
   }
 
   const RemoveEvent = (props: any): JSX.Element => {
-    const [removeEvent] = useMutation(MUTATION_DELETE_EVENT)
+    const [removeEvent] = useMutation(MUTATION_DELETE_EVENT, {
+      update(store, { data: { deleteEVENT } }) {
+        const newEvent = [deleteEVENT]
+        const allEventsOnDay: any = store.readQuery({
+          query: QUERY_EVENTS_ON_DAY,
+          variables: { DATE: dateCtx },
+        })
+        console.log(allEventsOnDay)
+        console.log(newEvent)
+        debugger
+        store.writeQuery({
+          query: QUERY_EVENTS_ON_DAY,
+          variables: { DATE: dateCtx },
+          data: { eventsByDay: remove(allEventsOnDay.eventsByDay, newEvent) },
+        })
+      },
+      refetchQueries: [
+        {
+          query: QUERY_EVENTS_ON_MONTH,
+          variables: { DATE: dateCtx },
+        },
+      ],
+    })
 
     return (
       <div>
@@ -91,30 +156,3 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
 }
 
 export default Summary
-
-const QUERY_EVENTS_ON_DAY = gql`
-  query($DATE: String!) {
-    eventsByDay(date: $DATE) {
-      id
-      title
-      date
-    }
-  }
-`
-
-const MUTATION_ADD_EVENT = gql`
-  mutation($title: String!, $date: String!) {
-    createEVENT(title: $title, date: $date) {
-      title
-      date
-    }
-  }
-`
-
-const MUTATION_DELETE_EVENT = gql`
-  mutation($id: String!) {
-    deleteEVENT(id: $id) {
-      title
-    }
-  }
-`

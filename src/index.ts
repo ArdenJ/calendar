@@ -20,7 +20,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createEVENT(title: String!, date: String!): EVENT!
+    createEVENT(title: String!, date: String!, id: String!): EVENT!
     updateEVENT(id: String!, title: String, date: String): EVENT!
     deleteEVENT(id: String!): EVENT
   }
@@ -62,9 +62,9 @@ const resolvers = {
 
   Mutation: {
     // Create new EVENT
-    createEVENT: (root, { title, date }, { db, id }, info) => {
+    createEVENT: (root, { title, date, id }, { db }, info) => {
       const newEVENT = {
-        id: id,
+        id,
         title,
         date,
       }
@@ -115,11 +115,7 @@ const resolvers = {
 
 // Apollo Server
 import { environment } from '../environment'
-const {
-  apollo: { introspection, playground },
-  port,
-  jsonServ,
-} = environment
+const { port, jsonServ } = environment
 
 // TODO: apollo .env variables aren't getting passed...
 const server = new ApolloServer({
