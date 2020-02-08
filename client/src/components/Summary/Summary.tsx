@@ -2,8 +2,10 @@ import React, { useState, useRef } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import crypto from 'crypto'
 
+// Context
 import { useEventContext } from '../../contexts/event.context'
 
+// Queries
 import {
   QUERY_EVENTS_ON_DAY,
   QUERY_EVENTS_ON_MONTH,
@@ -11,21 +13,79 @@ import {
   MUTATION_DELETE_EVENT,
 } from '../../queries/queries'
 
+// Styling
 import { StyledSummary } from './Summary.styled'
 
+// Helper functions
 function genId(): string {
   return crypto.randomBytes(10).toString('hex')
 }
 
-function remove(arr: any[], value: any[]) {
-  return arr.filter((i: any) => {
-    return i !== value
-  })
-}
+// At present, when a user click on a day in the calendar body, an event list is returned:
+// TODO: Update calendar body when event list is updated
+// TODO: Update event list when an event is deleted
+// FIXME: Mutation logic should be in the largest possible scope within summary component
+//
 
+// Component
 const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
   const dateCtx = useEventContext().date.date
 
+  // Create event mutation
+  const [createEvent] = useMutation(MUTATION_ADD_EVENT, {
+    update(store, { data: { createEVENT } }) {
+      const newEvent = [createEVENT]
+      const allEventsOnDay: any = store.readQuery({
+        query: QUERY_EVENTS_ON_DAY,
+        variables: { DATE: dateCtx },
+      })
+      console.log(allEventsOnDay)
+      console.log(newEvent)
+      debugger
+      store.writeQuery({
+        query: QUERY_EVENTS_ON_DAY,
+        variables: { DATE: dateCtx },
+        data: { eventsByDay: allEventsOnDay.eventsByDay.concat(newEvent) },
+      })
+    },
+    refetchQueries: [
+      {
+        query: QUERY_EVENTS_ON_MONTH,
+        variables: { DATE: dateCtx },
+      },
+    ],
+  })
+
+  // Remove event mutation
+  const [removeEvent] = useMutation(MUTATION_DELETE_EVENT, {
+    update(store, { data: { deleteEVENT } }) {
+      const newEvent = deleteEVENT
+      const allEventsOnDay: any = store.readQuery({
+        query: QUERY_EVENTS_ON_DAY,
+        variables: { DATE: dateCtx },
+      })
+      console.log(allEventsOnDay)
+      console.log(newEvent)
+      debugger
+      store.writeQuery({
+        query: QUERY_EVENTS_ON_DAY,
+        variables: { DATE: dateCtx },
+        data: {
+          eventsByDay: allEventsOnDay.eventsByDay.filter(
+            (i: any) => i.id != newEvent.id,
+          ),
+        },
+      })
+    },
+    refetchQueries: [
+      {
+        query: QUERY_EVENTS_ON_DAY,
+        variables: { DATE: dateCtx },
+      },
+    ],
+  })
+
+  // Event list
   const EventList = () => {
     let { loading, error, data } = useQuery(QUERY_EVENTS_ON_DAY, {
       variables: { DATE: dateCtx },
@@ -49,34 +109,10 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
     }
   }
 
+  // Input component
   const CreateEvent = () => {
     let input: any
     const [value, setValue] = useState('')
-
-    // TODO: Abstract the cache update...
-    const [createEvent] = useMutation(MUTATION_ADD_EVENT, {
-      update(store, { data: { createEVENT } }) {
-        const newEvent = [createEVENT]
-        const allEventsOnDay: any = store.readQuery({
-          query: QUERY_EVENTS_ON_DAY,
-          variables: { DATE: dateCtx },
-        })
-        console.log(allEventsOnDay)
-        console.log(newEvent)
-        debugger
-        store.writeQuery({
-          query: QUERY_EVENTS_ON_DAY,
-          variables: { DATE: dateCtx },
-          data: { eventsByDay: allEventsOnDay.eventsByDay.concat(newEvent) },
-        })
-      },
-      refetchQueries: [
-        {
-          query: QUERY_EVENTS_ON_MONTH,
-          variables: { DATE: dateCtx },
-        },
-      ],
-    })
 
     return (
       <div>
@@ -104,31 +140,8 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
     )
   }
 
+  // delete component
   const RemoveEvent = (props: any): JSX.Element => {
-    const [removeEvent] = useMutation(MUTATION_DELETE_EVENT, {
-      update(store, { data: { deleteEVENT } }) {
-        const newEvent = [deleteEVENT]
-        const allEventsOnDay: any = store.readQuery({
-          query: QUERY_EVENTS_ON_DAY,
-          variables: { DATE: dateCtx },
-        })
-        console.log(allEventsOnDay)
-        console.log(newEvent)
-        debugger
-        store.writeQuery({
-          query: QUERY_EVENTS_ON_DAY,
-          variables: { DATE: dateCtx },
-          data: { eventsByDay: remove(allEventsOnDay.eventsByDay, newEvent) },
-        })
-      },
-      refetchQueries: [
-        {
-          query: QUERY_EVENTS_ON_MONTH,
-          variables: { DATE: dateCtx },
-        },
-      ],
-    })
-
     return (
       <div>
         <button
@@ -145,6 +158,7 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
     )
   }
 
+  // Return summary
   return (
     <StyledSummary>
       <h1>{dateCtx}</h1>

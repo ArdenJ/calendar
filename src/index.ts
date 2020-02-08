@@ -106,7 +106,7 @@ const resolvers = {
         .then(res => res.json())
         .then(data => {
           console.log(data)
-          return data
+          return { id, title: 'empty', date: '' }
         })
         .catch(err => console.log(err))
     },
