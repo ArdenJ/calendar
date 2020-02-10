@@ -34,7 +34,7 @@ cd client
 npm start //starts the client on 3000
 ```
 
-A live demo of the project will be available on Codesanbox [here](#).
+A live demo of the project will be available on Codesandbox [here](#).
 
 ![Project as of 02 Feb](./images/10Feb.jpg)
 
