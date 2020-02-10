@@ -10,9 +10,13 @@ import { StyledCalendarHeader } from './CalendarHeader.styled'
 const CalendarHeader = (): JSX.Element => {
   return (
     <StyledCalendarHeader>
-      <Date />
-      <Button click={BACK}>BACK</Button>
-      <Button click={NEXT}>NEXT</Button>
+      <div className="date">
+        <Date />
+      </div>
+      <div className="buttons">
+        <Button click={BACK}>BACK</Button>
+        <Button click={NEXT}>NEXT</Button>
+      </div>
     </StyledCalendarHeader>
   )
 }

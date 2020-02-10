@@ -38,27 +38,28 @@ A live demo of the project will be available on Codesanbox [here](#).
 
 ![Project as of 02 Feb](./images/02Feb.jpg)
 
-## Minimum requirements
+## At present:
 
-- ~~On loading the app renders a calendar displaying the present month with any
-  events rendered on the appropriate date~~
-- ~~As a user I can navigate between months using the UI~~
-- As a user I can Create, Read, Update, and Delete events via the the UI
-- ~~The date context should indicate to the calendar how many date cards should
-  be returned~~
-- Each individual date card should contain:
-  - ~~The date~~
-  - ~~Any events returned from the GQL endpoint~~
+- On load the calendar renders displaying the correct month
+- Individual date cards contain a list of events
+- Clicking on an individual card will populate the summary with the date and any
+  existing events
+- New events can be added to the list by using the input
+- Events can be removed from the list by pressing the cross
 
-## At present
+## Todos
 
-- Using the Apollo Playground I can create, read, update, and delete events
-- Using GQL I can return an array of events on a given day or month
-- On load, the client renders with the present date displayed
-- I use the 'next' and 'back' buttons to change the month and year displayed on
-  the simple date component
-- The body of the calendar displays events
-- Clicking a particular date in the calendar will bring up an expanded summary
+- Styling
+- Make the project more mobile-friendly
+- Add updateEVENT mutation
+- Add more depth to event listings
+- Add ability to reorder events
+- write a test or 2.
+
+## Known issues
+
+- refetchQueries isn't updating components following mutations:
+  [issue on GitHub](https://github.com/apollographql/react-apollo/issues/3647)
 
 ## Built With
 

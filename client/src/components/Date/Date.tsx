@@ -6,5 +6,5 @@ import { useDate } from '../../contexts/date.context'
 
 export default function Date(): JSX.Element {
   const date = moment(useDate()).format('MMMM YYYY')
-  return <>{date}</>
+  return <StyledDate>{date}</StyledDate>
 }

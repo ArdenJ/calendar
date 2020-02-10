@@ -44,6 +44,13 @@ const CalendarBody = (): any => {
             .add(index, 'days')
             .format('DD-MM-YYYY')}
           events={arr[index][1]}
+          highlight={
+            moment(start, 'DD-MM-YYYY')
+              .add(index, 'days')
+              .format('MMM') === moment(date, 'DD-MM-YYYY').format('MMM')
+              ? 'month'
+              : 'false'
+          }
         />
       )
     })

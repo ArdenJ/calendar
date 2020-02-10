@@ -6,12 +6,12 @@ import Nav from '../Nav/Nav'
 
 import { StyledCalendar } from './Calendar.styled'
 
-const Calendar = (): JSX.Element => {
+const Calendar = ({ setDarkMode }: any): JSX.Element => {
   return (
     <StyledCalendar>
       <div className="header">
         <CalendarHeader />
-        <Nav>NAV</Nav>
+        <Nav toggle={setDarkMode} />
       </div>
       <CalendarBody />
     </StyledCalendar>

@@ -2,6 +2,7 @@ import React from 'react'
 import moment from 'moment'
 
 import { useEventContext } from '../../contexts/event.context'
+import { useDate, useEvents } from '../../contexts/date.context'
 
 import { StyledCard } from './Card.styled'
 
@@ -12,15 +13,16 @@ interface IEventObj {
 }
 
 export default function Card(props: any): JSX.Element {
-  const { events, date } = props
+  const { events, date, highlight } = props
   const { setDate } = useEventContext()
+  const dateCtx = useDate()
 
   const EventList: React.FC = () => {
     if (events !== undefined && events.length > 0 === true) {
       const eventArr: JSX.Element[] = events.map(
         (i: IEventObj, index: number) => {
           const title =
-            i.title.length > 10 ? `${i.title.substr(0, 17)}...` : i.title
+            i.title.length >= 20 ? `${i.title.substr(0, 17)}...` : i.title
           return (
             <li key={index}>
               <div className="container" />
@@ -36,7 +38,7 @@ export default function Card(props: any): JSX.Element {
     }
   }
   return (
-    <StyledCard onClick={() => setDate({ date: date })}>
+    <StyledCard className={highlight} onClick={() => setDate({ date: date })}>
       <h1>{moment(date, 'DD-MM-YYYY').format('DD')}</h1>
       <EventList />
     </StyledCard>

@@ -5,7 +5,7 @@ export const StyledSummary = styled.section`
   margin: 5rem auto auto;
   width: 72%;
   padding: 2rem;
-  background-color: white;
+  background-color: ${({ theme }) => theme.backgroundLight};
   border-radius: 12px;
-  box-shadow: 0 0 20px 1px rgb(0, 0, 0, 0.4);
+  box-shadow: 0 0 20px 1px ${({ theme }) => theme.shadow};
 `

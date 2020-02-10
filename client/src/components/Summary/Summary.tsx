@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import crypto from 'crypto'
+import moment from 'moment'
 
 // Context
 import { useEventContext } from '../../contexts/event.context'
@@ -41,6 +42,7 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
       })
       console.log(allEventsOnDay)
       console.log(newEvent)
+      console.log(`date: ${dateCtx}`)
       debugger
       store.writeQuery({
         query: QUERY_EVENTS_ON_DAY,
@@ -51,7 +53,9 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
     refetchQueries: [
       {
         query: QUERY_EVENTS_ON_MONTH,
-        variables: { DATE: dateCtx },
+        variables: {
+          DATE: dateCtx,
+        },
       },
     ],
   })

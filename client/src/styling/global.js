@@ -24,8 +24,11 @@ export const GlobalStyles = createGlobalStyle`
         justify-content: center;
         text-rendering: optimizeLegibility;
         line-height: 1.5;
-        background-color: #efefef;
-        background-image: linear-gradient(40deg, #5f72bd 0%, #9b23ea 100%);
+        background-color: ${({ theme }) => theme.bodyDark};
+        background-image: url(
+            ${({ theme }) => theme.backgroundImage}
+            );
+        background-size: cover;
     }
     
     h1, h2, h3, h4, h5, h6 {

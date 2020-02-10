@@ -1,11 +1,11 @@
-import React from 'react'
-import ApolloClient, {InMemoryCache} from 'apollo-boost'
+import React, { useState } from 'react'
+import ApolloClient, { InMemoryCache } from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { ThemeProvider } from 'styled-components'
 import { DateProvider } from './contexts/date.context'
 import { EventProvider } from './contexts/event.context'
 
-import { theme } from './styling/theme'
+import { lightTheme, darkTheme } from './styling/themes/themes'
 import { GlobalStyles } from './styling/global'
 
 import Wrapper from './components/Wrapper/Wrapper'
@@ -14,11 +14,18 @@ import Summary from './components/Summary/Summary'
 import Calendar from './components/Calendar/Calendar'
 
 const App: React.FC = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false)
+
+  function setDarkMode() {
+    setIsDarkMode(!isDarkMode)
+    console.log(isDarkMode)
+  }
+
   return (
     <DateProvider>
       <EventProvider>
         <ApolloProvider client={client}>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
             <GlobalStyles />
             <div className="App">
               <Wrapper>
@@ -29,7 +36,7 @@ const App: React.FC = () => {
                   <Summary>SUMMARY</Summary>
                 </div>
                 <div className="calendar">
-                  <Calendar />
+                  <Calendar setDarkMode={setDarkMode} />
                 </div>
               </Wrapper>
             </div>
@@ -43,7 +50,7 @@ const App: React.FC = () => {
 // Apollo
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 })
 
 export default App

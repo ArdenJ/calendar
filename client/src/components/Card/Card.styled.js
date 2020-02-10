@@ -7,11 +7,17 @@ export const StyledCard = styled.button`
   height: 100%;
   width: 100%;
   border: 0;
-  box-shadow: 0 0 1px 0 rgb(0, 0, 0, 0.2);
-  background: transparent;
+  box-shadow: 0 0 1px 0 ${({ theme }) => theme.shadow};
+  background-color: transparent;
   padding: 0.8rem;
   margin: auto;
   text-align: left;
+  color: ${({ theme }) => theme.textDark};
+
+  /* FIXME: Confusing: all buttons in the correct month have the classname below but the background color won't update!? */
+  .month {
+    background-color: red !important;
+  }
 
   h1 {
     font-size: 1rem;
@@ -34,7 +40,5 @@ export const StyledCard = styled.button`
     height: 100%;
     z-index: 1000;
     overflow: hidden;
-
-    /* background-image: linear-gradient(to left, white, rgb(0, 0, 0, 0) 27%); */
   }
 `

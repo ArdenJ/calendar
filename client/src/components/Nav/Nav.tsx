@@ -1,9 +1,25 @@
 import React, { ReactChildren } from 'react'
 
-import { StyledNav } from './Nav.styled'
+import { StyledNav, StyledNavButton } from './Nav.styled'
 
-const Nav = (props: JSX.ElementChildrenAttribute): JSX.Element => {
-  return <StyledNav>{props.children}</StyledNav>
+const Nav = ({ toggle }: any): JSX.Element => {
+  return (
+    <StyledNav>
+      <ul>
+        <li>
+          <a
+            href="https://www.github.com/ArdenJ/calendar"
+            rel="noopener noreferrer"
+            target="_blank">
+            Repo
+          </a>
+        </li>
+        <li>
+          <StyledNavButton onClick={() => toggle()}>Dark Mode</StyledNavButton>
+        </li>
+      </ul>
+    </StyledNav>
+  )
 }
 
 export default Nav
