@@ -1,9 +1,14 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from './App';
+import React from 'react'
+import { render } from '@testing-library/react'
+import App from './App'
+import moment from 'moment'
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+const month = moment()
+  .format('MMMM YYYY')
+  .toString()
+
+test('it renders the correct month on load', () => {
+  const { getByText } = render(<App />)
+  const presentMonth = getByText(month)
+  expect(presentMonth).toBeInTheDocument()
+})
