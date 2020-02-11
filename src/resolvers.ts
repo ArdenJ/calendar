@@ -72,7 +72,6 @@ const resolvers = {
     },
 
     // Delete existing EVENT
-    // TODO: How to handle a the return - there is no data - can I return a generic?
     deleteEVENT: (root, { id }, { db }, info) => {
       return fetch(`${db}/${id}`, {
         method: 'DELETE',

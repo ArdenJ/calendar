@@ -5,6 +5,7 @@ import moment from 'moment'
 
 // Context
 import { useEventContext } from '../../contexts/event.context'
+import { useDate } from '../../contexts/date.context'
 
 // Queries
 import {
@@ -22,37 +23,33 @@ function genId(): string {
   return crypto.randomBytes(10).toString('hex')
 }
 
-// At present, when a user click on a day in the calendar body, an event list is returned:
-// TODO: Update calendar body when event list is updated
-// TODO: Update event list when an event is deleted
-// FIXME: Mutation logic should be in the largest possible scope within summary component
-//
-
 // Component
 const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
   const dateCtx = useEventContext().date.date
+  const monthCtx = moment(useDate(), 'YYYY-MM-DD')
+    .format('DD-MM-YYYY')
+    .toString()
+  let EVENT_ID: string // TODO: Not a fan of relying on mutability, but useState was lagging behind on update... worth fixing?
 
   // Create event mutation
   const [createEvent] = useMutation(MUTATION_ADD_EVENT, {
     update(store, { data: { createEVENT } }) {
       const newEvent = [createEVENT]
-      const allEventsOnDay: any = store.readQuery({
-        query: QUERY_EVENTS_ON_DAY,
-        variables: { DATE: dateCtx },
+      const allEventsOnMonth: any = store.readQuery({
+        query: QUERY_EVENTS_ON_MONTH,
+        variables: { DATE: monthCtx },
       })
-      console.log(allEventsOnDay)
-      console.log(newEvent)
-      console.log(`date: ${dateCtx}`)
-      debugger
       store.writeQuery({
-        query: QUERY_EVENTS_ON_DAY,
-        variables: { DATE: dateCtx },
-        data: { eventsByDay: allEventsOnDay.eventsByDay.concat(newEvent) },
+        query: QUERY_EVENTS_ON_MONTH,
+        variables: { DATE: monthCtx },
+        data: {
+          eventsByMonth: allEventsOnMonth.eventsByMonth.concat(newEvent),
+        },
       })
     },
     refetchQueries: [
       {
-        query: QUERY_EVENTS_ON_MONTH,
+        query: QUERY_EVENTS_ON_DAY,
         variables: {
           DATE: dateCtx,
         },
@@ -62,21 +59,18 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
 
   // Remove event mutation
   const [removeEvent] = useMutation(MUTATION_DELETE_EVENT, {
-    update(store, { data: { deleteEVENT } }) {
-      const newEvent = deleteEVENT
-      const allEventsOnDay: any = store.readQuery({
-        query: QUERY_EVENTS_ON_DAY,
-        variables: { DATE: dateCtx },
+    update(store) {
+      const allEventsOnMonth: any = store.readQuery({
+        query: QUERY_EVENTS_ON_MONTH,
+        variables: { DATE: monthCtx },
       })
-      console.log(allEventsOnDay)
-      console.log(newEvent)
-      debugger
+      console.log(EVENT_ID)
       store.writeQuery({
-        query: QUERY_EVENTS_ON_DAY,
-        variables: { DATE: dateCtx },
+        query: QUERY_EVENTS_ON_MONTH,
+        variables: { DATE: monthCtx },
         data: {
-          eventsByDay: allEventsOnDay.eventsByDay.filter(
-            (i: any) => i.id != newEvent.id,
+          eventsByMonth: allEventsOnMonth.eventsByMonth.filter(
+            (i: any) => i.id !== EVENT_ID,
           ),
         },
       })
@@ -151,6 +145,7 @@ const Summary = (props: JSX.ElementChildrenAttribute): JSX.Element => {
         <button
           onClick={() => {
             console.log(props.id)
+            EVENT_ID = props.id
             removeEvent({ variables: { id: props.id } }).then(
               res => console.log(res),
               err => console.log(err),
