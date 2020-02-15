@@ -8,4 +8,11 @@ export const StyledSummary = styled.section`
   background-color: ${({ theme }) => theme.backgroundLight};
   border-radius: 12px;
   box-shadow: 0 0 20px 1px ${({ theme }) => theme.shadow};
+
+  .heading {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+    justify-content: space-between;
+  }
 `

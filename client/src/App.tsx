@@ -2,12 +2,16 @@ import React, { useState } from 'react'
 import ApolloClient, { InMemoryCache } from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { ThemeProvider } from 'styled-components'
+
+// Context
 import { DateProvider } from './contexts/date.context'
 import { EventProvider } from './contexts/event.context'
 
+// Theming
 import { lightTheme, darkTheme } from './styling/themes/themes'
 import { GlobalStyles } from './styling/global'
 
+// Components
 import Wrapper from './components/Wrapper/Wrapper'
 import Header from './components/Header/Header'
 import Summary from './components/Summary/Summary'
@@ -30,10 +34,10 @@ const App: React.FC = () => {
             <div className="App">
               <Wrapper>
                 <Header>
-                  <>HEADER</>
+                  <>p bad calendar</>
                 </Header>
                 <div className="summary">
-                  <Summary>SUMMARY</Summary>
+                  <Summary />
                 </div>
                 <div className="calendar">
                   <Calendar setDarkMode={setDarkMode} />
