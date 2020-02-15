@@ -150,7 +150,7 @@ const EventList = (props: any): JSX.Element => {
       )
     }
 
-    // Create event component
+    // Create event button component
     if (dateCtx !== '') {
       if (showing === true) {
         return (

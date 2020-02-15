@@ -54,12 +54,11 @@ A live demo of the project will be available on Codesandbox [here](#).
 - Add updateEVENT mutation
 - Add more depth to event listings
 - Add ability to reorder events
-- write a test or 2.
+- Tidy up typescript
 
 ## Known issues
 
-- refetchQueries isn't updating components following mutations:
-  [issue on GitHub](https://github.com/apollographql/react-apollo/issues/3647)
+- Any month starting on the first renders events on the day before 😕
 
 ## Built With
 
