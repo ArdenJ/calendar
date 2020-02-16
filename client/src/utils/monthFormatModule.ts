@@ -23,7 +23,7 @@ const monthFormatModule = (function() {
     const start = moment(firstDay, 'DD-MM-YYYY')
     if (sun === 'Sun') {
       _firstSun = firstDay
-      _additionalDays = 1
+      _additionalDays = 0
       return { _firstSun, _additionalDays }
     } else {
       do {
@@ -50,26 +50,3 @@ const monthFormatModule = (function() {
 })()
 
 export const { getStartDate, getAdditionalDays } = monthFormatModule
-
-// function findSunday(firstDay: string): IDateMod {
-//   let sun = moment(firstDay, 'DD-MM-YYYY').format('ddd')
-//   let i = 1
-//   if (sun === 'Sun') {
-//     _firstSun = firstDay
-//     _additionalDays = i
-//     debugger
-//     return { _firstSun, _additionalDays }
-//   } else {
-//     do {
-//       i = i++
-//       firstDay = `${moment(firstDay, 'DD-MM-YYYY')
-//         .add(-i, 'days')
-//         .format('DD-MM-YYYY')}`
-//       _firstSun = firstDay
-//       _additionalDays = i
-//       debugger
-//       sun = moment(_firstSun, 'DD-MM-YYYY').format('ddd')
-//     } while (sun !== 'Sun')
-//     return { _firstSun, _additionalDays }
-//   }
-// }
