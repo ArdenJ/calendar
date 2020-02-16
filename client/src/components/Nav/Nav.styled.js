@@ -8,10 +8,11 @@ export const StyledNav = styled.section`
     display: flex;
     justify-content: space-between;
     list-style: none;
+    margin: auto 0;
   }
 
   li {
-    padding: 0.8rem 1rem;
+    padding: 0 1rem;
   }
 
   a {
@@ -22,14 +23,24 @@ export const StyledNav = styled.section`
   a:active {
     text-decoration: underline;
   }
+
+  .repo {
+    font-size: 1rem;
+    margin: auto;
+    padding: 0.6rem;
+    background: transparent;
+    border: none;
+  }
 `
 
 export const StyledNavButton = styled.button`
   box-sizing: border-box;
   font-size: 1.5rem;
-  background: transparent;
+  background: ${({ theme }) => theme.accent};
   border: none;
-  color: ${({ theme }) => theme.textLight};
+  color: ${({ theme }) => theme.accent2};
   font-size: 1rem;
   margin: auto;
+  padding: 0.6rem;
+  border-radius: 8px;
 `

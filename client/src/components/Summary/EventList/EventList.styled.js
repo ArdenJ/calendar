@@ -13,4 +13,17 @@ export const StyledEventList = styled.section`
     justify-content: space-between;
     flex-wrap: nowrap;
   }
+
+  .eventButtons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+    box-shadow: none;
+  }
+
+  svg {
+    fill: ${({ theme }) => theme.textLight};
+    height: 1rem;
+    width: 1rem;
+  }
 `

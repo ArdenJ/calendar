@@ -9,7 +9,7 @@ export const StyledCalendar = styled.main`
   height: 100%;
   width: 100%;
   padding: 1rem 1.8rem 1.8rem 1.8rem;
-  box-shadow: 0 0 30px 0 rgb(0, 0, 0, 0.6);
+  box-shadow: ${({ theme }) => theme.shadow};
   background-color: ${({ theme }) => theme.backgroundLight};
 
   .header {

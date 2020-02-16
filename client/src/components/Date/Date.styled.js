@@ -3,5 +3,5 @@ import styled from 'styled-components'
 export const StyledDate = styled.div`
   box-sizing: border-box;
   min-width: 7.4rem;
-  color: gray;
+  color: ${({ theme }) => theme.textLight};
 `

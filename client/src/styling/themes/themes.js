@@ -1,21 +1,25 @@
 export const lightTheme = {
-  textLight: '#222323',
-  textDark: '#202020',
+  textLight: '#001f3f',
+  textDark: '#001f3f',
+  accent: '#001f3f',
+  accent2: '#f6f6fb',
   border: 'rgb(0, 0, 0, 0.4)',
-  shadow: 'rgb(0, 0, 0, 0.2)',
-  backgroundLight: '#ffffff',
-  backgroundDark: '#eeeeee',
-  backgroundImage:
-    'https://images.unsplash.com/photo-1577998076239-ea6d9a7dcd82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+  shadow: '4px 4px 8px #d1d1d5, -4px -4px 8px #ffffff',
+  insetShadow: 'inset 2px 2px 4px #d1d1d5, inset -2px -2px 4px #ffffff',
+  backgroundLight: '#f6f6fb',
+  backgroundDark: '#f5f5fd',
+  backgroundImage: 'linear-gradient(40deg, #f6f6fb, #f6f6fb)',
 }
 
 export const darkTheme = {
   textLight: '#ffffff',
   textDark: '#eeeeee',
+  accent: '#f6f6fb',
+  accent2: '#071f38',
   border: 'rgb(255, 255, 255, 0.4)',
-  shadow: 'rgb(255, 255, 255, 0.2)',
-  backgroundLight: '#111212',
-  backgroundDark: '#020202',
-  backgroundImage:
-    'https://images.unsplash.com/photo-1503981473451-8b604df73b91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
+  shadow: '4px 4px 8px #001a36, -4px -4px 8px #002448',
+  insetShadow: 'inset 2px 2px 4px #001a36, inset -2px -2px 4px #002448',
+  backgroundLight: '#001f3f',
+  backgroundDark: '#071f38',
+  backgroundImage: 'linear-gradient(40deg, #001f3f, #001f3f)',
 }

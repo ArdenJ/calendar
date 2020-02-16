@@ -4,7 +4,7 @@ export const StyledCalendarHeader = styled.main`
   margin: auto 0;
   padding: 0.4rem 1rem;
   margin-bottom: 0.8rem;
-  box-shadow: 0 0 2px 0 ${({ theme }) => theme.shadow};
+  box-shadow: ${({ theme }) => theme.insetShadow};
   border-radius: 8px;
   display: flex;
   justify-content: space-between;

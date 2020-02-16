@@ -31,7 +31,22 @@ const Summary = (): JSX.Element => {
       return (
         //If there isn't a valid date in context, return welcome message
         <>
-          <h2>👋</h2>
+          <h2>Yo 👋</h2>
+          <br />
+          <p>This is a wee calendar app built using React and Apollo</p>
+          <br />
+          <p>
+            You can navigate between months, and add/remove events by clicking
+            on the cards in the calendar body
+          </p>
+          <br />
+          <h3>Note:</h3>
+          <ul>
+            <li>
+              This is by no means fully functional; please see the repo for
+              todos/wanna dos
+            </li>
+          </ul>
         </>
       )
     }

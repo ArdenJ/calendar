@@ -34,7 +34,7 @@ const App: React.FC = () => {
             <div className="App">
               <Wrapper>
                 <Header>
-                  <>p bad calendar</>
+                  <>Calen-dope</>
                 </Header>
                 <div className="summary">
                   <Summary />

@@ -25,9 +25,7 @@ export const GlobalStyles = createGlobalStyle`
         text-rendering: optimizeLegibility;
         line-height: 1.5;
         background-color: ${({ theme }) => theme.bodyDark};
-        background-image: url(
-            ${({ theme }) => theme.backgroundImage}
-            );
+        background-image: ${({ theme }) => theme.backgroundImage};
         background-size: cover;
     }
     

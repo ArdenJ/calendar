@@ -7,12 +7,14 @@ const Nav = ({ toggle }: any): JSX.Element => {
     <StyledNav>
       <ul>
         <li>
-          <a
-            href="https://www.github.com/ArdenJ/calendar"
-            rel="noopener noreferrer"
-            target="_blank">
-            Repo
-          </a>
+          <button className="repo">
+            <a
+              href="https://www.github.com/ArdenJ/calendar"
+              rel="noopener noreferrer"
+              target="_blank">
+              Repo
+            </a>
+          </button>
         </li>
         <li>
           <StyledNavButton onClick={() => toggle()}>Dark Mode</StyledNavButton>

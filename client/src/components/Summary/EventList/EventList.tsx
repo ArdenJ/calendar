@@ -17,6 +17,9 @@ import {
 // Styling
 import { StyledEventList } from './EventList.styled'
 
+// Assets
+import { Cross, Edit } from './icons/SVGS'
+
 // Helper functions
 function genId(): string {
   return crypto.randomBytes(10).toString('hex')
@@ -98,7 +101,10 @@ const EventList = (props: any): JSX.Element => {
           return (
             <h2 key={index} className="event">
               {i.title}
-              <RemoveEvent id={i.id} />
+              <span className="eventButtons">
+                <UpdateEvent id={i.id} className="summaryUIButton" />
+                <RemoveEvent id={i.id} className="summaryUIButton" />
+              </span>
             </h2>
           )
         },
@@ -171,7 +177,7 @@ const EventList = (props: any): JSX.Element => {
     } else return <></>
   }
 
-  // delete component
+  // delete button component
   const RemoveEvent = (props: any): JSX.Element => {
     return (
       <div>
@@ -184,7 +190,26 @@ const EventList = (props: any): JSX.Element => {
               err => console.log(err),
             )
           }}>
-          x
+          <Cross />
+        </button>
+      </div>
+    )
+  }
+
+  // update button component
+  const UpdateEvent = (props: any): JSX.Element => {
+    return (
+      <div>
+        <button
+          onClick={() => {
+            console.log(props.id)
+            EVENT_ID = props.id
+            removeEvent({ variables: { id: props.id } }).then(
+              res => console.log(res),
+              err => console.log(err),
+            )
+          }}>
+          <Edit />
         </button>
       </div>
     )

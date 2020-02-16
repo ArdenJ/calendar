@@ -8,10 +8,11 @@ export const StyledHeader = styled.header`
 
   svg {
     margin-right: 1rem;
+    fill: ${({ theme }) => theme.accent};
   }
 
   h1 {
-    color: white;
+    color: ${({ theme }) => theme.accent};
     font-size: 2.2rem;
     text-transform: uppercase;
   }

@@ -42,3 +42,13 @@ export const MUTATION_DELETE_EVENT = gql`
     }
   }
 `
+
+export const MUTATION_UPDATE_EVENT = gql`
+  mutation($id: String!, $title: String, $date: String) {
+    updateEVENT(id: $id, title: $title, date: $date) {
+      id
+      title
+      date
+    }
+  }
+`
