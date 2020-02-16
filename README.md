@@ -36,7 +36,7 @@ npm start //starts the client on 3000
 
 A live demo of the project will be available on Codesandbox [here](#).
 
-![Project as of 02 Feb](./images/10Feb.jpg)
+[![Project as of 02 Feb](./images/16Feb.jpg)](https://drive.google.com/file/d/1QmFHp8gFcJWYPl6IPHI8Q3ugNxtYt8Xz/preview)
 
 ## At present:
 
@@ -49,12 +49,13 @@ A live demo of the project will be available on Codesandbox [here](#).
 
 ## Todos
 
-- Styling
 - Make the project more mobile-friendly
+- Make interactions more interesting
 - Add updateEVENT mutation
 - Add more depth to event listings
-- Add ability to reorder events
 - Tidy up typescript
+- Add highlighting for Card components that are days of the month in context
+- Add a way to escape out of creating an event
 
 ## Built With
 
