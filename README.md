@@ -56,10 +56,6 @@ A live demo of the project will be available on Codesandbox [here](#).
 - Add ability to reorder events
 - Tidy up typescript
 
-## Known issues
-
-- Any month starting on the first renders events on the day before 😕
-
 ## Built With
 
 - [React](https://reactjs.org/) - The Js framework used
