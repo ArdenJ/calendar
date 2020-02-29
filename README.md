@@ -30,11 +30,10 @@ npm run start //runs the graphql endpoint on 4000
 Fourth (final) terminal:
 
 ```
-cd client
-npm start //starts the client on 3000
+npm run client  //starts the client on 3000
 ```
 
-A live demo of the project will be available on Codesandbox [here](#).
+A live demo of the project will be available on Codesandbox [here](#). Until then the still below links to a short demo video!
 
 [![Project as of 02 Feb](./images/16Feb.jpg)](https://drive.google.com/file/d/1QmFHp8gFcJWYPl6IPHI8Q3ugNxtYt8Xz/preview)
 

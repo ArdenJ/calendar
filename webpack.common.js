@@ -5,11 +5,6 @@ module.exports = {
     rules: [
       {
         exclude: [path.resolve(__dirname, 'node_modules')],
-        test: [/\.ts$/, /\.tsx$/, /\.js$/, /\.jsx$/],
-        use: 'babel-loader',
-      },
-      {
-        exclude: [path.resolve(__dirname, 'node_modules')],
         test: [/\.ts$/, /\.tsx$/],
         use: 'ts-loader',
       },
