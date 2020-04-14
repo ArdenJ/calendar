@@ -10,8 +10,7 @@
     "build": "cross-env-shell webpack --config webpack.$NODE_ENV.js",
     "start": "node dist/server",
     "jsonserv": "json-server --watch db/data.json --port 3001",
-    "client": "npm start --prefix client",
-    "development": "concurrently \"npm run start\" \"npm run client\""
+    "development": "concurrently \"npm run jsonserv\" \"npm run start\" \"npm run start --prefix client\""
   },
   "repository": {
     "type": "git",

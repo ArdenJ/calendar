@@ -4,9 +4,7 @@ tldr: this is a to-do list attached to some form of calendar
 
 ## Getting Started
 
-The setup is currently a little fiddly. After cloning the repo, open the project
-and run 'npm i' in the root directory. Then cd into the client and run npm i
-again. THEN:
+The setup is currently a little fiddly. After cloning the repo, open the project and install dependencies in the root and client. Then:
 
 First terminal:
 
@@ -18,19 +16,7 @@ npm run dev //build dist
 Second terminal:
 
 ```
-npm run jsonserv //runs the mock database on 3001
-```
-
-Third terminal:
-
-```
-npm run start //runs the graphql endpoint on 4000
-```
-
-Fourth (final) terminal:
-
-```
-npm run client  //starts the client on 3000
+npm run development //runs the mock database (3001), apollo server (4000), and client (3000). Allow some time for the project to open.
 ```
 
 A live demo of the project will be available on Codesandbox [here](#). Until then the still below links to a short demo video!
