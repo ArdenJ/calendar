@@ -34,13 +34,15 @@ A live demo of the project will be available on Codesandbox [here](#). Until the
 
 ## Todos
 
-- Make the project more mobile-friendly
+- Make the project more mobile-friendly (see image below)
 - Make interactions more interesting
 - Add updateEVENT mutation
 - Add more depth to event listings
 - Tidy up typescript
 - Add highlighting for Card components that are days of the month in context
 - Add a way to escape out of creating an event
+
+[mobile ui plan](https://excalidraw.com/#json=5189794522988544,rlBA6Yad0hDKROXslnmRPg)
 
 ## Built With
 
