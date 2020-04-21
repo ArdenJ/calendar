@@ -24,8 +24,8 @@ export const GlobalStyles = createGlobalStyle`
         justify-content: center;
         text-rendering: optimizeLegibility;
         line-height: 1.5;
-        background-color: ${({ theme }) => theme.bodyDark};
-        background-image: ${({ theme }) => theme.backgroundImage};
+        background-color: #fff;
+        /* background-image: ${({ theme }) => theme.backgroundImage}; */
         background-size: cover;
     }
     
@@ -36,6 +36,6 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     .hidden {
-        background-color: palevioletred;
+        display: none;
     }
 `

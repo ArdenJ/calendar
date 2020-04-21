@@ -2,17 +2,17 @@ import React, {useState} from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import moment from 'moment'
+import styled from 'styled-components'
 
-import CalendarHeader from '../CalendarHeader/CalendarHeader'
+import CalendarHeader from './CalendarHeader/CalendarHeader'
 import Nav from '../Nav/Nav'
 import Summary from '../Summary/Summary'
 import Card from '../Card/Card'
+import Grid from './CalendarBody/Grid/Grid'
 
-import { getStartDate, getAdditionalDays } from '../../utils/monthFormatModule'
+import { getStartDate, getAdditionalDays } from './utils/monthFormat'
 
-import { useDate, useEvents } from '../../contexts/date.context'
-
-import { StyledCalendar } from './Calendar.styled'
+import { useDate } from '../../contexts/date.context'
 
 const Calendar = ({ setDarkMode }: any): JSX.Element => {
   console.log('here')
@@ -63,21 +63,20 @@ const CalendarBody = () => {
 
   const dayArray = arr.map((i: any, index: number) => {
     let weekNo = `week${Math.ceil((index + 1) / rowLength)}`;
+    let inMonth =  moment(start, 'DD-MM-YYYY')
+    .add(index, 'days')
+    .format('MMM') === moment(date, 'DD-MM-YYYY').format('MMM')
+    ? 'month'
+    : 'hidden'
     return (
-      <div className='item' style={{display: 'flex', width: 'calc(100% / 7)'}}>
+      <div className={`item ${inMonth}`} style={{display: 'flex', width: 'calc(100% / 7)', minHeight: 'calc(100% / 6)'}}>
       <Day
         key={`Card_${index}`}
         date={moment(start)
           .add(index, 'days')
           .format('DD-MM-YYYY')}
         events={arr[index][1]}
-        highlight={
-          moment(start, 'DD-MM-YYYY')
-            .add(index, 'days')
-            .format('MMM') === moment(date, 'DD-MM-YYYY').format('MMM')
-            ? 'month'
-            : 'false'
-        }
+        highlight={inMonth}
         index={index}
         weekNo={weekNo}
         setOpenEditor={setOpenEditor}
@@ -120,7 +119,9 @@ const CalendarBody = () => {
 
   return (
     <div style={{width: '100%'}}>
-      <WeekContainer>{weeks}</WeekContainer>
+      <Grid>
+        <WeekContainer>{weeks}</WeekContainer>
+      </Grid>
     </div>
   );
 }
@@ -131,7 +132,7 @@ const WeekContainer = React.memo(props => {
 
 const Week = ({ weekNo, children, openEditor, setOpenEditor }:any) => {
   return (
-    <div style={{width:'100%'}}>
+    <div style={{width:'100%', height: '100%'}}>
       <div style={{width:'100%', display:'flex'}}>{children}</div>
       {openEditor.openIndex.includes(weekNo) ? (
         <Editor click={setOpenEditor} />
@@ -165,7 +166,7 @@ const Day = (props: any) => {
 };
 
 const Editor = (props: { click: (arg0: { openIndex: (string | number)[] }) => void }) => (
-  <div style={{ backgroundColor: "blue", minHeight: "24%", width: "100%" }}>
+  <div style={{ minHeight: "24%", width: "100%" }}>
     <button onClick={() => props.click({ openIndex: ["none", 0] })}>x</button>
     <Summary />
   </div>
@@ -178,6 +179,29 @@ const QUERY_EVENTS_ON_MONTH = gql`
       title
       date
     }
+  }
+`
+
+// Styling 
+const StyledCalendar = styled.main`
+  box-sizing: border-box;
+  display: grid;
+  grid-template-areas:
+    'header'
+    'body';
+  grid-template-rows: 1fr 8fr;
+  min-height: 100%;
+  width: 100%;
+  padding: 1rem;
+  background-color: #fff;
+  border: 3px solid black;
+  border-radius: 4px;
+  box-shadow: 10px 10px paleturquoise;
+  transform: translateX(-5px);
+  
+  .header {
+    display: inline-flex;
+    justify-content: space-between;
   }
 `
 

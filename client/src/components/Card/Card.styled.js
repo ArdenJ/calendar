@@ -6,18 +6,14 @@ export const StyledCard = styled.button`
   flex-direction: column;
   height: 100%;
   width: 100%;
-  border: 0;
-  box-shadow: 0 0 1px 0 ${({ theme }) => theme.shadow};
+  border: 3px solid black;
   background-color: transparent;
-  padding: 0.8rem;
-  margin: auto;
+  align-items: center;
+  justify-content: center;
   text-align: left;
-  color: ${({ theme }) => theme.textDark};
-  border: 1px solid red;
 
-  /* FIXME: Confusing: all buttons in the correct month have the classname below but the background color won't update!? */
   .month {
-    background-color: red !important;
+    background-color: palevioletred !important;
   }
 
   h1 {

@@ -36,11 +36,9 @@ export const StyledNav = styled.section`
 export const StyledNavButton = styled.button`
   box-sizing: border-box;
   font-size: 1.5rem;
-  background: ${({ theme }) => theme.accent};
-  border: none;
-  color: ${({ theme }) => theme.accent2};
+  border: 3px solid black;
   font-size: 1rem;
   margin: auto;
   padding: 0.6rem;
-  border-radius: 8px;
+  border-radius: 4px;
 `

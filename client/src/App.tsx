@@ -53,7 +53,7 @@ const App: React.FC = () => {
                 <div className="summary">
                   <Summary />
                 </div> */}
-                <div className="calendar" style={{width: '70vw', height: '80vh'}}>
+                <div className="calendar" style={{width: '90vw', height: '90vh'}}>
                   <Calendar setDarkMode={useTheme} />
                 </div>
               {/* </Wrapper> */}

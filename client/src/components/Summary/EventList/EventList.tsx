@@ -99,13 +99,15 @@ const EventList = (props: any): JSX.Element => {
       const events: JSX.Element[] = data.eventsByDay.map(
         (i: any, index: number) => {
           return (
-            <h2 key={index} className="event">
-              {i.title}
+            <div key={index} className="event">
+              <h2>
+                {i.title}
+              </h2>
               <span className="eventButtons">
                 <UpdateEvent id={i.id} className="summaryUIButton" />
                 <RemoveEvent id={i.id} className="summaryUIButton" />
               </span>
-            </h2>
+            </div>
           )
         },
       )

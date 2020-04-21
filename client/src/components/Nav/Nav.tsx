@@ -18,7 +18,7 @@ const Nav = ({ toggle }: any): JSX.Element => {
           </button>
         </li>
         <li>
-          <StyledNavButton onClick={() => setIsDarkMode(!isDarkMode)}>Dark Mode</StyledNavButton>
+  <StyledNavButton onClick={() => setIsDarkMode(!isDarkMode)}>{isDarkMode ? `🌞` : `🌙`}</StyledNavButton>
         </li>
       </ul>
     </StyledNav>
