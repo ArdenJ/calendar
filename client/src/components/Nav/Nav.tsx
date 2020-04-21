@@ -3,6 +3,7 @@ import React, { ReactChildren } from 'react'
 import { StyledNav, StyledNavButton } from './Nav.styled'
 
 const Nav = ({ toggle }: any): JSX.Element => {
+  const [isDarkMode, setIsDarkMode] = toggle()
   return (
     <StyledNav>
       <ul>
@@ -17,7 +18,7 @@ const Nav = ({ toggle }: any): JSX.Element => {
           </button>
         </li>
         <li>
-          <StyledNavButton onClick={() => toggle()}>Dark Mode</StyledNavButton>
+          <StyledNavButton onClick={() => setIsDarkMode(!isDarkMode)}>Dark Mode</StyledNavButton>
         </li>
       </ul>
     </StyledNav>

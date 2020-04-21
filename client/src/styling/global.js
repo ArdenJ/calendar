@@ -34,4 +34,8 @@ export const GlobalStyles = createGlobalStyle`
         font-weight: 700;
         line-height: 1;
     }
+
+    .hidden {
+        background-color: palevioletred;
+    }
 `

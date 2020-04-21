@@ -13,9 +13,14 @@ interface IEventObj {
   date: string
 }
 
-export default function Card(props: any): JSX.Element {
-  const { events, date, highlight } = props
+const Card = (props: any): JSX.Element => {
+  const { events, date, highlight, handleOpen } = props 
   const { setDate } = useEventContext()
+
+  const handleClick = () => {
+    setDate({ date: date }) 
+    handleOpen()
+  };
 
   const EventList: React.FC = () => {
     if (events !== undefined && events.length > 0 === true) {
@@ -31,7 +36,6 @@ export default function Card(props: any): JSX.Element {
           )
         },
       )
-
       return <ul>{eventArr}</ul>
     } else {
       return <React.Fragment />
@@ -39,12 +43,14 @@ export default function Card(props: any): JSX.Element {
   }
   return (
     <StyledCard
-      className={highlight}
-      onClick={() => {
-        setDate({ date: date })
-      }}>
-      <h1>{moment(date, 'DD-MM-YYYY').format('DD')}</h1>
-      <EventList />
+      onClick={() => handleClick()}>
+      {/* onClick={() => setDate({ date: date })}> */} 
+      <div className={highlight}>
+        <h1>{moment(date, 'DD-MM-YYYY').format('DD')}</h1>
+        <EventList />
+      </div>
     </StyledCard>
   )
 }
+
+export default Card

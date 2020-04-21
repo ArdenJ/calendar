@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ApolloClient, { InMemoryCache } from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { ThemeProvider } from 'styled-components'
@@ -18,32 +18,46 @@ import Summary from './components/Summary/Summary'
 import Calendar from './components/Calendar/Calendar'
 
 const App: React.FC = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false)
 
-  function setDarkMode() {
-    setIsDarkMode(!isDarkMode)
-    console.log(isDarkMode)
+  // TODO: MOVE TO SEPERATE HOOKS FOLDER
+  // custom hook to set and store theme in local storage
+  function useTheme():[string, React.Dispatch<string>, boolean] {
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+      const storedValue = localStorage.getItem('theme')
+      return storedValue === null ? false : JSON.parse(storedValue)
+    })
+
+    useEffect(() => { 
+      localStorage.setItem('theme', JSON.stringify(isDarkMode))
+    }, [isDarkMode, setIsDarkMode])
+
+    const themeBoolean = Boolean(localStorage.getItem('theme'))
+
+    return [isDarkMode, setIsDarkMode, themeBoolean]
   }
+
+  const [themeBoolean] = useTheme()
 
   return (
     <DateProvider>
       <EventProvider>
         <ApolloProvider client={client}>
-          <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+          {/* FIXME: WHY NO UPDATE?  */}
+          <ThemeProvider theme={themeBoolean ? darkTheme : lightTheme}>
             <GlobalStyles />
             <div className="App">
-              <Wrapper>
+              {/* <Wrapper>
                 <Header>
                   <>Calen-dope</>
                 </Header>
                 <div className="summary">
                   <Summary />
+                </div> */}
+                <div className="calendar" style={{width: '70vw', height: '80vh'}}>
+                  <Calendar setDarkMode={useTheme} />
                 </div>
-                <div className="calendar">
-                  <Calendar setDarkMode={setDarkMode} />
-                </div>
-              </Wrapper>
-            </div>
+              {/* </Wrapper> */}
+            </div> 
           </ThemeProvider>
         </ApolloProvider>
       </EventProvider>

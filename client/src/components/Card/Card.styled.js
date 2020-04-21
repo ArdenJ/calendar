@@ -13,6 +13,7 @@ export const StyledCard = styled.button`
   margin: auto;
   text-align: left;
   color: ${({ theme }) => theme.textDark};
+  border: 1px solid red;
 
   /* FIXME: Confusing: all buttons in the correct month have the classname below but the background color won't update!? */
   .month {
