@@ -19,10 +19,9 @@ const Calendar = ({ setDarkMode }: any): JSX.Element => {
   return (
     <StyledCalendar>
       <div className="header">
-        <CalendarHeader />
-        <Nav toggle={setDarkMode} />
+        <CalendarHeader toggle={setDarkMode}/> 
       </div>
-        <CalendarBody />
+      <CalendarBody />
     </StyledCalendar>
   )
 }
@@ -69,7 +68,7 @@ const CalendarBody = () => {
     ? 'month'
     : 'hidden'
     return (
-      <div className={`item ${inMonth}`} style={{display: 'flex', width: 'calc(100% / 7)', minHeight: 'calc(100% / 6)'}}>
+      <div className={`item ${inMonth}`} style={{display: 'flex', width: 'calc(100% / 7)', minHeight: '7vh', flexShrink: 4}}>
       <Day
         key={`Card_${index}`}
         date={moment(start)
@@ -120,22 +119,18 @@ const CalendarBody = () => {
   return (
     <div style={{width: '100%'}}>
       <Grid>
-        <WeekContainer>{weeks}</WeekContainer>
+        {weeks}
       </Grid>
     </div>
   );
 }
 
-const WeekContainer = React.memo(props => {
-  return <div>{props.children}</div>;
-});
-
 const Week = ({ weekNo, children, openEditor, setOpenEditor }:any) => {
   return (
-    <div style={{width:'100%', height: '100%'}}>
-      <div style={{width:'100%', display:'flex'}}>{children}</div>
+    <div style={{width:'100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch'}}>
+      <div style={{width:'100%', display: 'flex'}}>{children}</div>
       {openEditor.openIndex.includes(weekNo) ? (
-        <Editor click={setOpenEditor} />
+        <Editor click={() => setOpenEditor({openIndex: ["none", 0]})} />
       ) : (
         React.Fragment
       )}
@@ -165,12 +160,13 @@ const Day = (props: any) => {
   );
 };
 
-const Editor = (props: { click: (arg0: { openIndex: (string | number)[] }) => void }) => (
-  <div style={{ minHeight: "24%", width: "100%" }}>
-    <button onClick={() => props.click({ openIndex: ["none", 0] })}>x</button>
-    <Summary />
-  </div>
-);
+const Editor = (props: any) => {
+  return (
+    <div style={{ minHeight: "24%", width: "100%", padding: '0.4rem 0.6rem'}}>
+      <Summary click={props.click}/>
+    </div>
+  )
+} 
 
 const QUERY_EVENTS_ON_MONTH = gql`
   query($DATE: String!) {
@@ -198,9 +194,9 @@ const StyledCalendar = styled.main`
   border-radius: 4px;
   box-shadow: 10px 10px paleturquoise;
   transform: translateX(-5px);
-  
+
   .header {
-    display: inline-flex;
+    display: flex;
     justify-content: space-between;
   }
 `

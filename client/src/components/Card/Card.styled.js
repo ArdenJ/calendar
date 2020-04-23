@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const StyledCard = styled.button`
   box-sizing: border-box;
   display: flex;
+  flex-shrink: 4;
   flex-direction: column;
   height: 100%;
   width: 100%;

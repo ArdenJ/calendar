@@ -29,4 +29,8 @@ max-width: 100%;
     flex-wrap: nowrap; 
     justify-content: space-evenly;
   }
+
+  .container {
+    height: 400px;
+  }
 `

@@ -5,10 +5,12 @@ import moment from 'moment'
 import { useDate, NEXT, BACK } from '../../../contexts/date.context'
 
 import Button from '../../Button/Button'
+import Nav from '../../Nav/Nav'
 
-const CalendarHeader = (): JSX.Element => {
+const CalendarHeader = (props: any): JSX.Element => {
   return (
     <StyledCalendarHeader>
+      <div className='month-selector'>
       <div className="date">
         <Date />
       </div>
@@ -16,6 +18,8 @@ const CalendarHeader = (): JSX.Element => {
         <Button click={BACK}>BACK</Button>
         <Button click={NEXT}>NEXT</Button>
       </div>
+      </div>
+      <Nav toggle={props.toggle}/>
     </StyledCalendarHeader>
   )
 }
@@ -23,19 +27,22 @@ const CalendarHeader = (): JSX.Element => {
 export default CalendarHeader
 
 function Date(): JSX.Element {
-  const date = moment(useDate()).format('MMMM YYYY')
+  const date = moment(useDate()).format('MMM YY')
   return <StyledDate>{date}</StyledDate>
 }
 
 // Styling
-const StyledCalendarHeader = styled.main`
-  margin: auto 0;
-  padding: 0.4rem 1rem;
-  margin-bottom: 0.8rem;
-  border: 3px solid black;
-  border-radius: 4px;
+const StyledCalendarHeader = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
+
+  .month-selector {
+    padding: 0.4rem 1rem;
+    border: 3px solid black;
+    border-radius: 4px;
+    display: flex;
+  }
 
   .date {
     padding-right: 0.8rem;
