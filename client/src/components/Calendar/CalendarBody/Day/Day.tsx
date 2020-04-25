@@ -1,4 +1,7 @@
 import React from 'react'
+import moment from 'moment'
+
+import { useDate } from '../../../../contexts/date.context'
 
 import Card from '../../../Card/Card'
 
@@ -14,7 +17,7 @@ interface IDayProps {
     openIndex: [string, number]
   }>>,
   date: string,
-  events: number | any[], 
+  events: any, 
   highlight: string 
 }
 
@@ -25,9 +28,11 @@ const Day = (props:IDayProps):JSX.Element => {
     openEditor, 
     setOpenEditor, 
     date,
-    events, 
+    events,
     highlight,
   } = props
+
+  const PRESENT_DATE = moment(useDate()).format('DD-MM-YYYY')
 
   const handleClick = (weekNo: string) => {
     // @ts-ignore
@@ -37,12 +42,17 @@ const Day = (props:IDayProps):JSX.Element => {
     : setOpenEditor({openIndex: [weekNo, index + 1]})
   }
 
+  const isPresentDay = date === PRESENT_DATE
+
+  const hasEvents = events?.length > 0
+
   return (
     <Card 
       handleOpen={() => handleClick(weekNo)}
       date={date}
-      events={events}
       highlight={highlight}
+      isPresentDay={isPresentDay}
+      hasEvents={hasEvents}
     />
   )
 }

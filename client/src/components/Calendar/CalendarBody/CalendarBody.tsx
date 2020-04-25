@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Styled from 'styled-components'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import moment from 'moment'
@@ -12,6 +11,7 @@ import Grid from './Grid/Grid'
 import Week from './Week/Week'
 import Day from './Day/Day'
 
+// 7 b'cos 7 days in a week innit
 const rowLength = 7
 
 const CalendarBody = () => {
@@ -19,34 +19,46 @@ const CalendarBody = () => {
     openIndex: [string, number]
   }>({ openIndex: ['none', 0] });
 
-    // get the month presently in view
-      let firstDay = `01-${moment(useDate()).format('MM-YYYY')}` // create date string for first of the month
-      const start = moment(getStartDate(firstDay), 'DD-MM-YYYY') // ensure start is correctly formatted // TODO: change this 
-      const additionalDays = getAdditionalDays(firstDay) // get the number of additional days (first sunday before start of month)
-      const date = moment(useDate()).format('DD-MM-YYYY') // get the present date // TODO: start day could be abstracted from this rather than calling moment twice
-  
-      // gql query to find event in the month
-      let { loading, error, data } = useQuery(QUERY_EVENTS_ON_MONTH, {
-        variables: { DATE: date },
-      })
-      if (loading) return <>loading...</>
-      if (error || !loading) console.log(error)
-  
-      // create an array of 42 cards (6 weeks)
-      // spread the events into the cards
-      const arr = Array(42)
-        .fill(0)
-        .map((_, index) => {
-          const EVENTS = data.eventsByMonth.filter((i: any) => {
-            return (
-              moment(i.date, 'DD-MM-YYYY').format('D') ===
-              (index + 1 + additionalDays).toString()
-            )
-          })
-          return [index + 1 + additionalDays, [...EVENTS]]
-        })
+  // get the month presently in view
+  // create date string for first of the month
+  let firstDay = `01-${moment(useDate()).format('MM-YYYY')}` 
 
-  const dayArray = arr.map((i: any, index: number) => {
+  // ensure start is correctly formatted 
+  const start = moment(getStartDate(firstDay), 'DD-MM-YYYY') 
+
+  // get the number of additional days (first sunday before start of month)
+  const additionalDays = getAdditionalDays(firstDay) 
+
+  // get the present date 
+  const date = moment(useDate()).format('DD-MM-YYYY')
+
+  // gql query to find event in the month
+  let { loading, error, data } = useQuery(QUERY_EVENTS_ON_MONTH, {
+    variables: { DATE: date },
+  })
+  if (loading) return <>loading...</>
+  if (error || !loading) console.log(error)
+
+  interface IEventData {
+    id: string,
+    title: string,
+    date: string
+  }
+  // create an array of 42 cards (6 weeks)
+  // spread the events into the cards
+  const arr = Array(42)
+    .fill(0)
+    .map((_, index) => {
+      const EVENTS = data.eventsByMonth.filter((i: IEventData) => {
+        return (
+          moment(i.date, 'DD-MM-YYYY').format('D') ===
+          (index + 1 + additionalDays).toString()
+        )
+      })
+      return [index + 1 + additionalDays, [...EVENTS]]
+    })
+
+  const dayArray = arr.map((_: any, index: number) => {
     let weekNo = `week${Math.ceil((index + 1) / rowLength)}`;
     let inMonth =  moment(start, 'DD-MM-YYYY')
     .add(index, 'days')
@@ -71,10 +83,10 @@ const CalendarBody = () => {
     );
   });
 
-  const splitDayArray = (arg: any) => {
+  const splitDayArray = (arg: JSX.Element[]) => {
     let innerArr = arg;
     let memo: any[] = [];
-    const slicer = (innerArr: string | any[]) => {
+    const slicer = (innerArr: JSX.Element[]) => {
       if (innerArr.length === 0) return memo;
       for (let day of innerArr) {
         if (innerArr.indexOf(day) + 1 === rowLength) {
@@ -102,6 +114,7 @@ const CalendarBody = () => {
     );
   });
 
+  // return CalendarBody
   return (
     <div style={{width: '100%'}}>
       <Grid>

@@ -13,14 +13,11 @@ export const StyledCard = styled.button`
   justify-content: center;
   text-align: left;
 
-  .month {
-    background-color: palevioletred !important;
-  }
-
   h1 {
     font-size: 1rem;
     font-weight: 400;
-    margin-bottom: 0.2rem;
+    padding: 0.3rem;
+    border-radius: 50%;
   }
   ul {
     list-style: none;

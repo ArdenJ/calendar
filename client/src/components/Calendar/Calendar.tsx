@@ -7,22 +7,19 @@ import CalendarBody from './CalendarBody/CalendarBody'
 const Calendar = ({ setDarkMode }: any): JSX.Element => {
   console.log('here')
   return (
-    <StyledCalendar>
+    <Container>
       <div className="header">
         <CalendarHeader toggle={setDarkMode}/> 
       </div>
       <CalendarBody />
-    </StyledCalendar>
+    </Container>
   )
 }
 
 export default Calendar
 
-const rowLength = 7;
-
-
 // Styling 
-const StyledCalendar = styled.main`
+const Container = styled.main`
   box-sizing: border-box;
   display: grid;
   grid-template-areas:

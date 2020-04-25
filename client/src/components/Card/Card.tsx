@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import moment from 'moment'
 
 // Context
@@ -13,8 +14,16 @@ interface IEventObj {
   date: string
 }
 
-const Card = (props: any): JSX.Element => {
-  const { events, date, highlight, handleOpen } = props 
+interface ICardProps {
+  handleOpen: () => void,
+  date: string,
+  highlight: string,
+  isPresentDay: boolean,
+  hasEvents: boolean,
+}
+
+const Card = (props: ICardProps): JSX.Element => {
+  const { date, highlight, handleOpen, isPresentDay, hasEvents } = props 
   const { setDate } = useEventContext()
 
   const handleClick = () => {
@@ -22,35 +31,39 @@ const Card = (props: any): JSX.Element => {
     handleOpen()
   };
 
-  const EventList: React.FC = () => {
-    if (events !== undefined && events.length > 0 === true) {
-      const eventArr: JSX.Element[] = events.map(
-        (i: IEventObj, index: number) => {
-          const title =
-            i.title.length >= 20 ? `${i.title.substr(0, 17)}...` : i.title
-          return (
-            <li key={index}>
-              <div className="container" />
-              {title}
-            </li>
-          )
-        },
-      )
-      return <ul>{eventArr}</ul>
-    } else {
-      return <React.Fragment />
-    }
-  }
-  return (
-    <StyledCard
-      onClick={() => handleClick()}>
-      {/* onClick={() => setDate({ date: date })}> */} 
+  const HighlightCard = () => {
+    return (
       <div className={highlight}>
-        <h1>{moment(date, 'DD-MM-YYYY').format('DD')}</h1>
-        <EventList />
+        {
+          hasEvents
+          ? <h1 className='has-events'>{moment(date, 'DD-MM-YYYY').format('DD')}</h1>
+          : <h1>{moment(date, 'DD-MM-YYYY').format('DD')}</h1>
+        }
       </div>
-    </StyledCard>
-  )
+    )
+  }
+  if (isPresentDay) {
+    return (
+      <div style={{width: '100%', margin: '2%'}}>
+      <StyledCard onClick={() => handleClick()} className='is-present-day'>
+        <HighlightCard />
+      </StyledCard> 
+      </div>
+    )
+  } else {
+    return (
+      <div style={{width: '100%', margin: '2%'}}>
+      <StyledCard onClick={() => handleClick()}>
+        <HighlightCard />
+      </StyledCard> 
+      </div>
+    )
+  }
 }
 
 export default Card
+
+// Styling 
+const Container = styled.div`
+
+`

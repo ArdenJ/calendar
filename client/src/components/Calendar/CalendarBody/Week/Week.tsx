@@ -19,13 +19,15 @@ const Week = ({weekNo, openEditor, setOpenEditor, children}: IWeekProps):JSX.Ele
 
   return (
     <Container>
-      <div style={{width:'100%', display: 'flex'}}>
+      <div className='card-container'>
         {children}
       </div>
-      {openEditor.openIndex.includes(weekNo) 
-      // this may break ⬇️
-      ? <Summary click={() => handleClick()} />
-      : React.Fragment}
+        {openEditor.openIndex.includes(weekNo) 
+        ? (
+          <div className='summary-container'>
+            <Summary click={() => handleClick()} />
+          </div>
+        ) : React.Fragment}
     </Container>
   )
 }
@@ -37,5 +39,13 @@ const Container = styled.div`
   display: flex; 
   flex-direction: column; 
   align-items: stretch; 
-  padding-bottom: 0.2rem;
+
+  .card-container {
+    width: 100%;
+    display: flex;
+  }
+
+  .summary-container {
+    padding: 0.4rem 0.7rem;
+  }
 `
