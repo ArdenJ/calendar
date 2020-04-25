@@ -6,14 +6,6 @@ export const StyledSummary = styled.section`
   padding: 2rem;
   border: 3px dashed palevioletred;
 
-  .heading {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between !important;
-    flex-wrap: nowrap;
-  }
-
   input {
     background: transparent;
     border: none;
@@ -23,5 +15,11 @@ export const StyledSummary = styled.section`
     border: 3px solid black;
     border-radius: 4px;
     padding: 0.6rem;
+    background: none;
+  }
+
+  svg {
+    height: 1rem;
+    width: 1rem;
   }
 `

@@ -5,7 +5,7 @@ import { useEventContext } from '../../contexts/event.context'
 import { StyledSummary } from './Summary.styled'
 
 import EventList from './EventList/EventList'
-import SumButt from './SummaryButton/SummaryButton'
+import {Cross} from './EventList/icons/SVGS'
 
 // Summary body either returns a list of events or a welcome message
 // TODO: Extract rendering event logic to this component and add an abstracted lauer to the summary propper
@@ -16,7 +16,9 @@ const Summary = (props: any) => {
 
   return (
     <StyledSummary>
-      <button onClick={props.click}>close</button>
+      <button onClick={props.click}>
+        <Cross />
+      </button>
       <EventList ctx={ctx} />
     </StyledSummary>
   )

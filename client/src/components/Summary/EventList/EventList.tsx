@@ -100,20 +100,24 @@ const EventList = (props: any): JSX.Element => {
         (i: any, index: number) => {
           return (
             <div key={index} className="event">
-              <h2>
-                {i.title}
-              </h2>
-              <span className="eventButtons">
+              <div style={{display: 'flex', alignItems: 'center'}}>
+                <p>
+                  {i.title}
+                </p>
+              </div>
+              <div className="event-buttons">
                 <UpdateEvent id={i.id} className="summaryUIButton" />
                 <RemoveEvent id={i.id} className="summaryUIButton" />
-              </span>
+              </div>
             </div>
           )
         },
       )
       return (
         <>
-          {events}
+          <div>
+            {events}
+          </div>
           <CreateEvent />
         </>
       )
@@ -136,7 +140,7 @@ const EventList = (props: any): JSX.Element => {
 
       return (
         <form
-          className="createEvent"
+          className="create-event"
           onSubmit={e => {
             e.preventDefault()
             createEvent({
@@ -149,6 +153,8 @@ const EventList = (props: any): JSX.Element => {
           }}>
           <input
             id="eventInput"
+            className='event-input'
+            type='text'
             value={value}
             onChange={e => setValue(e.target.value)}
             ref={ref}
@@ -168,7 +174,7 @@ const EventList = (props: any): JSX.Element => {
         )
       } else {
         return (
-          <button
+          <button className='create-event-button'
             onClick={() => {
               setShowing(!showing)
             }}>
