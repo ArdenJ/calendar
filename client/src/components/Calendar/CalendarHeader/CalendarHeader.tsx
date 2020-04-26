@@ -27,7 +27,7 @@ const CalendarHeader = (props: any): JSX.Element => {
 export default CalendarHeader
 
 function Date(): JSX.Element {
-  const date = moment(useDate()).format('MMM YY')
+  const date = moment(useDate()).format(`MMM 'YY`)
   return <StyledDate>{date}</StyledDate>
 }
 
@@ -60,5 +60,11 @@ const StyledCalendarHeader = styled.div`
 export const StyledDate = styled.div`
   box-sizing: border-box;
   min-width: 20%;
+  height: 100%;
   color: ${({ theme }) => theme.textLight};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  line-height: 1;
 `
