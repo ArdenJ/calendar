@@ -1,20 +1,12 @@
 import moment from 'moment'
 
-// This is over-typed
 interface IDateMod {
   _firstSun: string
   _additionalDays: number
 }
 
-// This didn't work the way I thought it worked.
-// What I thought: i was incremented and the value of i was subtracted from first day on each loop
-// What actually is happening i remains = 1 and the value of first day is mumtated. This is an issue.
-// Original code at the bottom
-//
-// Change made: create new constant === to the initial argument passed to the module an calculate the
-// difference between that and the first sunday on exiting the loop.
 // TODO: Refactor - don't mutate initial argument
-const monthFormatModule = (function() {
+const monthFormat = (function() {
   let _firstSun: string
   let _additionalDays: number
 
@@ -49,4 +41,4 @@ const monthFormatModule = (function() {
   }
 })()
 
-export const { getStartDate, getAdditionalDays } = monthFormatModule
+export const { getStartDate, getAdditionalDays } = monthFormat

@@ -24,14 +24,25 @@ export const GlobalStyles = createGlobalStyle`
         justify-content: center;
         text-rendering: optimizeLegibility;
         line-height: 1.5;
-        background-color: ${({ theme }) => theme.bodyDark};
-        background-image: ${({ theme }) => theme.backgroundImage};
-        background-size: cover;
+        background-color: #fff;
     }
     
     h1, h2, h3, h4, h5, h6 {
         font-family: 'Montserrat', sans-serif;
         font-weight: 700;
         line-height: 1;
+    }
+
+    /* GLOBAL CLASSES */
+    .hidden {
+        display: none;
+    }
+
+    .has-events {
+        background-color: lightseagreen;
+    }
+
+    .is-present-day {
+        background-color: lightseagreen;
     }
 `

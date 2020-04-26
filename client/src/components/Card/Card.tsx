@@ -1,11 +1,9 @@
 import React from 'react'
+import styled from 'styled-components'
 import moment from 'moment'
 
 // Context
 import { useEventContext } from '../../contexts/event.context'
-
-// Styling
-import { StyledCard } from './Card.styled'
 
 interface IEventObj {
   id: string
@@ -13,38 +11,88 @@ interface IEventObj {
   date: string
 }
 
-export default function Card(props: any): JSX.Element {
-  const { events, date, highlight } = props
+interface ICardProps {
+  handleOpen: () => void,
+  date: string,
+  highlight: string,
+  isPresentDay: boolean,
+  hasEvents: boolean,
+}
+
+const Card = (props: ICardProps): JSX.Element => {
+  const { date, highlight, handleOpen, isPresentDay, hasEvents } = props 
   const { setDate } = useEventContext()
 
-  const EventList: React.FC = () => {
-    if (events !== undefined && events.length > 0 === true) {
-      const eventArr: JSX.Element[] = events.map(
-        (i: IEventObj, index: number) => {
-          const title =
-            i.title.length >= 20 ? `${i.title.substr(0, 17)}...` : i.title
-          return (
-            <li key={index}>
-              <div className="container" />
-              {title}
-            </li>
-          )
-        },
-      )
+  const handleClick = () => {
+    setDate({ date: date }) 
+    handleOpen()
+  };
 
-      return <ul>{eventArr}</ul>
-    } else {
-      return <React.Fragment />
-    }
+  const HighlightCard = () => {
+    return (
+      <div className={highlight}>
+        {
+          hasEvents
+          ? <h1 className='has-events'>{moment(date, 'DD-MM-YYYY').format('DD')}</h1>
+          : <h1>{moment(date, 'DD-MM-YYYY').format('DD')}</h1>
+        }
+      </div>
+    )
   }
-  return (
-    <StyledCard
-      className={highlight}
-      onClick={() => {
-        setDate({ date: date })
-      }}>
-      <h1>{moment(date, 'DD-MM-YYYY').format('DD')}</h1>
-      <EventList />
-    </StyledCard>
-  )
+  if (isPresentDay) {
+    return (
+      <div style={{width: '100%', margin: '2%'}}>
+      <StyledCard onClick={() => handleClick()} className='is-present-day'>
+        <HighlightCard />
+      </StyledCard> 
+      </div>
+    )
+  } else {
+    return (
+      <div style={{width: '100%', margin: '2%'}}>
+      <StyledCard onClick={() => handleClick()}>
+        <HighlightCard />
+      </StyledCard> 
+      </div>
+    )
+  }
 }
+
+export default Card
+
+// Styling 
+const StyledCard = styled.button`
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  border: 3px solid black;
+  background-color: transparent;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+
+  h1 {
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0.3rem;
+    border-radius: 50%;
+  }
+  ul {
+    list-style: none;
+    width: 100%;
+  }
+  li {
+    position: relative;
+    overflow-x: hidden;
+  }
+  .container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    overflow: hidden;
+  }
+`

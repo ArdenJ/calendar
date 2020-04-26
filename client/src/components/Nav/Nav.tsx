@@ -1,25 +1,14 @@
-import React, { ReactChildren } from 'react'
+import React from 'react'
 
 import { StyledNav, StyledNavButton } from './Nav.styled'
 
-const Nav = ({ toggle }: any): JSX.Element => {
+const Nav = ({ themeHook }: any): JSX.Element => {
+  const [theme, updateTheme] = themeHook 
   return (
     <StyledNav>
-      <ul>
-        <li>
-          <button className="repo">
-            <a
-              href="https://www.github.com/ArdenJ/calendar"
-              rel="noopener noreferrer"
-              target="_blank">
-              Repo
-            </a>
-          </button>
-        </li>
-        <li>
-          <StyledNavButton onClick={() => toggle()}>Dark Mode</StyledNavButton>
-        </li>
-      </ul>
+          <StyledNavButton onClick={() => updateTheme()}>        
+            {theme === 'dark' ? `🌞` : `🌙`}
+          </StyledNavButton>
     </StyledNav>
   )
 }

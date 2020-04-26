@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ApolloClient, { InMemoryCache } from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { ThemeProvider } from 'styled-components'
@@ -7,43 +7,39 @@ import { ThemeProvider } from 'styled-components'
 import { DateProvider } from './contexts/date.context'
 import { EventProvider } from './contexts/event.context'
 
+// Hooks 
+import {useTheme} from './hooks/useTheme'
+
 // Theming
 import { lightTheme, darkTheme } from './styling/themes/themes'
 import { GlobalStyles } from './styling/global'
 
 // Components
-import Wrapper from './components/Wrapper/Wrapper'
-import Header from './components/Header/Header'
-import Summary from './components/Summary/Summary'
 import Calendar from './components/Calendar/Calendar'
 
 const App: React.FC = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false)
 
-  function setDarkMode() {
-    setIsDarkMode(!isDarkMode)
-    console.log(isDarkMode)
-  }
+  const {theme, updateTheme} = useTheme()
 
   return (
     <DateProvider>
       <EventProvider>
         <ApolloProvider client={client}>
-          <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+          <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
             <GlobalStyles />
             <div className="App">
-              <Wrapper>
-                <Header>
-                  <>Calen-dope</>
-                </Header>
-                <div className="summary">
-                  <Summary />
-                </div>
-                <div className="calendar">
-                  <Calendar setDarkMode={setDarkMode} />
-                </div>
-              </Wrapper>
-            </div>
+              <div style={{
+                width: '375px', 
+                minHeight: '812px', 
+                display: 'flex', 
+                alignItems: 'flex-start', 
+                position: 'absolute', 
+                top: '5vh', 
+                transform: 'translateX(-50%)'
+              }}>
+                <Calendar themeHook={[theme, updateTheme]} />
+              </div>
+            </div> 
           </ThemeProvider>
         </ApolloProvider>
       </EventProvider>
