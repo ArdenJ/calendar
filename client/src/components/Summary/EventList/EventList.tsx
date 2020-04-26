@@ -8,9 +8,11 @@ import { useDate } from '../../../contexts/date.context'
 
 // Queries
 import {
+  QUERY_EVENT,
   QUERY_EVENTS_ON_DAY,
   QUERY_EVENTS_ON_MONTH,
   MUTATION_ADD_EVENT,
+  MUTATION_UPDATE_EVENT,
   MUTATION_DELETE_EVENT,
 } from '../../../queries/queries'
 
@@ -32,7 +34,7 @@ const EventList = (props: any): JSX.Element => {
   const monthCtx = moment(useDate(), 'YYYY-MM-DD')
     .format('DD-MM-YYYY')
     .toString()
-  let EVENT_ID: string // TODO: Not a fan of relying on mutability, but useState was lagging behind on update... worth fixing? (useEffect)
+  let EVENT_ID: string // TODO: Not a fan of relying on mutability
 
   function readStore(a: any) {
     return a.readQuery({
@@ -64,6 +66,31 @@ const EventList = (props: any): JSX.Element => {
     ],
   })
 
+  // update event mutation
+  const [updateEvent] = useMutation(MUTATION_UPDATE_EVENT, {
+    update(store, { data: { updateEVENT } }) {
+      const newEvent = [updateEVENT]
+      const allEventsOnMonth: any = readStore(store)
+      store.writeQuery({
+        query: QUERY_EVENTS_ON_MONTH,
+        variables: { DATE: monthCtx },
+        data: {
+          eventsByMonth: allEventsOnMonth.eventsByMonth.filter(
+            (i: any) => i.id !== EVENT_ID
+          ).concat(newEvent)
+        }
+      })
+    },
+    refetchQueries: [
+      {
+        query: QUERY_EVENTS_ON_DAY,
+        variables: {
+          DATE: dateCtx,
+        },
+      }
+    ]
+  })
+
   // Remove event mutation
   const [removeEvent] = useMutation(MUTATION_DELETE_EVENT, {
     update(store) {
@@ -88,6 +115,10 @@ const EventList = (props: any): JSX.Element => {
 
   // Event list
   const Events = () => {
+    const [eventUpdate, setEventUpdate] = useState({
+      action: 'button'
+    })
+
     let { loading, error, data } = useQuery(QUERY_EVENTS_ON_DAY, {
       variables: { DATE: dateCtx },
     })
@@ -99,26 +130,29 @@ const EventList = (props: any): JSX.Element => {
       const events: JSX.Element[] = data.eventsByDay.map(
         (i: any, index: number) => {
           return (
-            <div key={index} className="event">
+            <div key={`event_${index}`} className="event" data-id={i.id}>
               <div style={{display: 'flex', alignItems: 'center'}}>
                 <p>
                   {i.title}
                 </p>
               </div>
               <div className="event-buttons">
-                <UpdateEvent id={i.id} className="summaryUIButton" />
+                <UpdateEvent id={i.id} title={i.title} className="summaryUIButton" setEventUpdate={setEventUpdate}/>
                 <RemoveEvent id={i.id} className="summaryUIButton" />
               </div>
             </div>
           )
         },
       )
+
       return (
         <>
           <div>
             {events}
           </div>
-          <CreateEvent />
+          {/* 
+          // @ts-ignore */} 
+          <CreateEvent eventHook={[eventUpdate, setEventUpdate]}/>
         </>
       )
     } else {
@@ -127,29 +161,48 @@ const EventList = (props: any): JSX.Element => {
   }
 
   // Input component
-  const CreateEvent = () => {
-    const [showing, setShowing] = useState(false)
-    const [value, setValue] = useState('')
+  const CreateEvent = ({eventHook}: any) => {
+    const [eventUpdate, setEventUpdate] = eventHook
     const ref: any = useRef()
 
-    // child component to avoids hook being called conditionally
-    const NewEvent = () => {
+    // child component to avoids hook being called conditionally 
+    const EventAction = ({type, inputID = genId(), val = ''}:any) => {
+      console.log('from event action: ', type, val)
       useEffect(() => {
         return ref.current.focus()
       }, [createEvent])
+
+      const [value, setValue] = useState(val)
+      
+
+
+      const handleSubmit = (type:{}, id:string, value:string):any => {
+        console.log('on submit: ', type)
+        type === 'create' 
+        ? (
+          createEvent({
+            variables: { title: value, date: dateCtx, id: id }
+          }).then(
+            res => console.log(res),
+            err => console.log(err),
+          )
+        ) : (
+          updateEvent({
+            variables: { title: value, date: dateCtx, id: id }
+          }).then(
+            res => console.log(res),
+            err => console.log(err),
+          )
+        )
+      }
 
       return (
         <form
           className="create-event"
           onSubmit={e => {
             e.preventDefault()
-            createEvent({
-              variables: { title: value, date: dateCtx, id: genId() },
-            }).then(
-              res => console.log(res),
-              err => console.log(err),
-            )
-            ref.current.value = ''
+            handleSubmit(type, inputID, value)
+            ref.current.value = val
           }}>
           <input
             id="eventInput"
@@ -159,31 +212,45 @@ const EventList = (props: any): JSX.Element => {
             onChange={e => setValue(e.target.value)}
             ref={ref}
           />
-          <button type="submit">Add Event</button>
+          <button type="submit">{type === 'create' ? 'Add Event' : 'Update'}</button>
         </form>
       )
     }
 
-    // Create event button component
     if (dateCtx !== '') {
-      if (showing === true) {
-        return (
+
+      const action = eventUpdate?.action
+
+      switch (action) {
+        case 'button': 
+          return (
+            <div>
+              <button className='create-event-button' onClick={
+                () => {setEventUpdate({action: 'new'})}
+              }>
+                create event
+              </button>
+            </div>
+          )
+        case 'update': 
+          return (
           <div>
-            <NewEvent />
+            <EventAction type={'update'} inputID={EVENT_ID} val={eventUpdate.title}/>
           </div>
-        )
-      } else {
-        return (
-          <button className='create-event-button'
-            onClick={() => {
-              setShowing(!showing)
-            }}>
-            create event
-          </button>
-        )
+          )
+        case 'new':
+          return (
+            <div>
+              <EventAction type={'create'} />
+            </div>
+          )
+        default: 
+          return <div>{`unhandled action: ${action}`}</div>
       }
-    } else return <></>
-  }
+    } else {
+      return React.Fragment
+    }  
+  } 
 
   // delete button component
   const RemoveEvent = (props: any): JSX.Element => {
@@ -210,12 +277,11 @@ const EventList = (props: any): JSX.Element => {
       <div>
         <button
           onClick={() => {
-            console.log(props.id)
             EVENT_ID = props.id
-            removeEvent({ variables: { id: props.id } }).then(
-              res => console.log(res),
-              err => console.log(err),
-            )
+            props.setEventUpdate({
+              action: 'update',
+              title: props.title
+            })
           }}>
           <Edit />
         </button>
