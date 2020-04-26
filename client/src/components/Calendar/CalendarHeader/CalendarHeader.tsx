@@ -19,7 +19,7 @@ const CalendarHeader = (props: any): JSX.Element => {
         <Button click={NEXT}>NEXT</Button>
       </div>
       </div>
-      <Nav toggle={props.toggle}/>
+      <Nav themeHook={props.themeHook}/>
     </StyledCalendarHeader>
   )
 }

@@ -66,7 +66,7 @@ const CalendarBody = () => {
     ? 'month'
     : 'hidden'
     return (
-      <div className={`item ${inMonth}`} style={{display: 'flex', width: 'calc(100% / 7)', minHeight: '7vh', flexShrink: 4}}>
+      <div className={`item ${inMonth}`} style={{display: 'flex', width: 'calc(100% / 7)', minHeight: '7vh'}}>
       <Day
         key={`Card_${index}`}
         date={moment(start)
@@ -116,7 +116,7 @@ const CalendarBody = () => {
 
   // return CalendarBody
   return (
-    <div style={{width: '100%'}}>
+    <div style={{height: '100%', width: '100%'}}>
       <Grid>
         {weeks}
       </Grid>

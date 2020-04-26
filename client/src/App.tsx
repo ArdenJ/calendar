@@ -7,56 +7,38 @@ import { ThemeProvider } from 'styled-components'
 import { DateProvider } from './contexts/date.context'
 import { EventProvider } from './contexts/event.context'
 
+// Hooks 
+import {useTheme} from './hooks/useTheme'
+
 // Theming
 import { lightTheme, darkTheme } from './styling/themes/themes'
 import { GlobalStyles } from './styling/global'
 
 // Components
-import Wrapper from './components/Wrapper/Wrapper'
-import Header from './components/Header/Header'
-import Summary from './components/Summary/Summary'
 import Calendar from './components/Calendar/Calendar'
 
 const App: React.FC = () => {
 
-  // TODO: MOVE TO SEPERATE HOOKS FOLDER
-  // custom hook to set and store theme in local storage
-  function useTheme():[string, React.Dispatch<string>, boolean] {
-    const [isDarkMode, setIsDarkMode] = useState(() => {
-      const storedValue = localStorage.getItem('theme')
-      return storedValue === null ? false : JSON.parse(storedValue)
-    })
-
-    useEffect(() => { 
-      localStorage.setItem('theme', JSON.stringify(isDarkMode))
-    }, [isDarkMode, setIsDarkMode])
-
-    const themeBoolean = Boolean(localStorage.getItem('theme'))
-
-    return [isDarkMode, setIsDarkMode, themeBoolean]
-  }
-
-  const [themeBoolean] = useTheme()
+  const {theme, updateTheme} = useTheme()
 
   return (
     <DateProvider>
       <EventProvider>
         <ApolloProvider client={client}>
-          {/* FIXME: WHY NO UPDATE?  */}
-          <ThemeProvider theme={themeBoolean ? darkTheme : lightTheme}>
+          <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
             <GlobalStyles />
             <div className="App">
-              {/* <Wrapper>
-                <Header>
-                  <>Calen-dope</>
-                </Header>
-                <div className="summary">
-                  <Summary />
-                </div> */}
-                <div className="calendar" style={{width: '90vw', height: '90vh'}}>
-                  <Calendar setDarkMode={useTheme} />
-                </div>
-              {/* </Wrapper> */}
+              <div style={{
+                width: '375px', 
+                minHeight: '812px', 
+                display: 'flex', 
+                alignItems: 'flex-start', 
+                position: 'absolute', 
+                top: '5vh', 
+                transform: 'translateX(-50%)'
+              }}>
+                <Calendar themeHook={[theme, updateTheme]} />
+              </div>
             </div> 
           </ThemeProvider>
         </ApolloProvider>

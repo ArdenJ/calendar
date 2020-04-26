@@ -2,12 +2,12 @@ import React from 'react'
 
 import { StyledNav, StyledNavButton } from './Nav.styled'
 
-const Nav = ({ toggle }: any): JSX.Element => {
-  const [isDarkMode, setIsDarkMode] = toggle()
+const Nav = ({ themeHook }: any): JSX.Element => {
+  const [theme, updateTheme] = themeHook 
   return (
     <StyledNav>
-          <StyledNavButton onClick={() => setIsDarkMode(!isDarkMode)}>        
-            {isDarkMode ? `🌞` : `🌙`}
+          <StyledNavButton onClick={() => updateTheme()}>        
+            {theme === 'dark' ? `🌞` : `🌙`}
           </StyledNavButton>
     </StyledNav>
   )

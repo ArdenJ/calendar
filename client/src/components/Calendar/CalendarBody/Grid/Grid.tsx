@@ -31,6 +31,6 @@ max-width: 100%;
   }
 
   .container {
-    height: 400px;
+    min-height: 400px;
   }
 `

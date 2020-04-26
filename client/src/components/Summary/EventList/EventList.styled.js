@@ -20,11 +20,16 @@ export const StyledEventList = styled.section`
     flex-wrap: nowrap;
 
     p, input[type=text] {
+      max-width: 62%;
       font-size: 1.4rem;
       font-weight: 700;
       color: #000;
       line-height: 1;
     }
+  }
+
+  .create-event {
+    margin-top: 1rem;
   }
 
   .create-event-button {
@@ -34,7 +39,7 @@ export const StyledEventList = styled.section`
   }
 
   .event-buttons {
-    width: 14%;
+    width: 34%;
     display: flex;
     flex-direction: row;
     flex-wrap: no-wrap;

@@ -4,14 +4,16 @@ import styled from 'styled-components'
 import CalendarHeader from './CalendarHeader/CalendarHeader'
 import CalendarBody from './CalendarBody/CalendarBody' 
 
-const Calendar = ({ setDarkMode }: any): JSX.Element => {
+const Calendar = ({ themeHook }: any): JSX.Element => {
   console.log('here')
   return (
     <Container>
       <div className="header">
-        <CalendarHeader toggle={setDarkMode}/> 
+        <CalendarHeader themeHook={themeHook}/> 
       </div>
-      <CalendarBody />
+      <div className='body'>
+        <CalendarBody />
+      </div>
     </Container>
   )
 }
@@ -20,14 +22,10 @@ export default Calendar
 
 // Styling 
 const Container = styled.main`
-  box-sizing: border-box;
-  display: grid;
-  grid-template-areas:
-    'header'
-    'body';
-  grid-template-rows: 1fr 8fr;
-  min-height: 100%;
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
   background-color: #fff;
   border: 3px solid black;
@@ -35,12 +33,12 @@ const Container = styled.main`
   box-shadow: 10px 10px paleturquoise;
   transform: translateX(-5px);
 
-  .header {
+  .header, .body {
     display: flex;
     justify-content: space-between;
   }
+
+  .body {
+    align-items: stretch;
+  }
 `
-
-
-
-
