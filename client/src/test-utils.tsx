@@ -13,12 +13,10 @@ import {useTheme} from './hooks/useTheme'
 // Theming
 import { lightTheme, darkTheme } from './styling/themes/themes'
 import { GlobalStyles } from './styling/global'
+import { render } from '@testing-library/react'
 
-// Components
-import Calendar from './components/Calendar/Calendar'
 
-const App: React.FC = () => {
-
+const AllTheProviders = ({ children }) => {
   const {theme, updateTheme} = useTheme()
 
   return (
@@ -27,19 +25,7 @@ const App: React.FC = () => {
         <ApolloProvider client={client}>
           <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
             <GlobalStyles />
-            <div className="App">
-              <div style={{
-                width: '375px', 
-                minHeight: '812px', 
-                display: 'flex', 
-                alignItems: 'flex-start', 
-                position: 'absolute', 
-                top: '5vh', 
-                transform: 'translateX(-50%)'
-              }}>
-                <Calendar themeHook={[theme, updateTheme]} />
-              </div>
-            </div> 
+            {children}
           </ThemeProvider>
         </ApolloProvider>
       </EventProvider>
@@ -53,4 +39,12 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
-export default App
+//@ts-ignore
+const customRender = (ui, options) =>
+  render(ui, { wrapper: AllTheProviders, ...options })
+
+// re-export everything
+export * from '@testing-library/react'
+
+// override render method
+export { customRender as render }
