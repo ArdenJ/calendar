@@ -16,10 +16,14 @@ npm run dev //build dist
 Second terminal:
 
 ```
-npm run development //runs the mock database (3001), apollo server (4000), and client (3000). Allow some time for the project to open.
+npm run development 
+//runs the mock database (3001), 
+// apollo server (4000), and client (3000). 
+// Allow some time for the project to open.
 ```
 
-A live demo of the project will be available on Codesandbox [here](#). Until then the still below links to a short demo video!
+A live demo of the project will be available on Codesandbox [here](#). 
+Until then the still below links to a short demo video! ⬇️
 
 [![Project as of 02 Feb](./images/27Apr.jpg)](https://drive.google.com/file/d/1eiy_-kSahI7kw28D-icBHoDfMv2voY3T/preview)
 
@@ -44,8 +48,6 @@ A live demo of the project will be available on Codesandbox [here](#). Until the
     - Most HTML elements are semantic but as the project has changed the flow is a little skewed.
     - Focus on event list when drawer opens 
         - and then on close, make sure focus returns to the Card that opened the drawer
-
-[mobile ui plan](https://excalidraw.com/#json=5189794522988544,rlBA6Yad0hDKROXslnmRPg)
 
 ## Built With
 
