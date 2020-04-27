@@ -16,7 +16,7 @@ import { GlobalStyles } from './styling/global'
 import { render } from '@testing-library/react'
 
 
-const AllTheProviders = ({ children }) => {
+const AllTheProviders = ({ children }:any) => {
   const {theme, updateTheme} = useTheme()
 
   return (

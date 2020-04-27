@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const StyledNav = styled.section`
-  box-sizing: border-box;
   margin: auto 0;
 `
 
@@ -15,4 +14,5 @@ export const StyledNavButton = styled.button`
   margin: auto;
   padding: 0.6rem;
   border-radius: 4px;
+  margin-left: 0.3rem;
 `
