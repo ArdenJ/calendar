@@ -5,12 +5,6 @@ import moment from 'moment'
 // Context
 import { useEventContext } from '../../contexts/event.context'
 
-interface IEventObj {
-  id: string
-  title: string
-  date: string
-}
-
 interface ICardProps {
   handleOpen: () => void,
   date: string,
@@ -66,7 +60,8 @@ const StyledCard = styled.button`
   display: flex;
   height: 100%;
   width: 100%;
-  border: 3px solid black;
+  border: ${({theme}) => `3px solid ${theme.border}`};
+  color: ${({theme}) => theme.textLight};
   background-color: transparent;
   align-items: center;
   justify-content: center;

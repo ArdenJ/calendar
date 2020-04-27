@@ -39,14 +39,14 @@ const StyledCalendarHeader = styled.div`
 
   .month-selector {
     padding: 0.4rem 1rem;
-    border: 3px solid black;
+    border: ${({theme}) => `3px solid ${theme.border}`};
     border-radius: 4px;
     display: flex;
   }
 
   .date {
     padding-right: 0.8rem;
-    border-right: 3px solid black};
+    border-right: ${({theme}) => `3px solid ${theme.border}`};
     margin: auto;
   }
   .buttons {

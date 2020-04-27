@@ -18,13 +18,13 @@ export const GlobalStyles = createGlobalStyle`
     body {
         overflow-x: hidden;
         align-items: center;
-        color: ${({ theme }) => theme.textDark};
+        color: ${({ theme }) => theme.textLight};
         display: flex;
         height: 100vh;
         justify-content: center;
         text-rendering: optimizeLegibility;
         line-height: 1.5;
-        background-color: #fff;
+        background-color: ${({theme}) => theme.backgroundDark};
     }
     
     h1, h2, h3, h4, h5, h6 {
@@ -39,10 +39,10 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     .has-events {
-        background-color: lightseagreen;
+        background-color: ${({theme}) => theme.accent2};
     }
 
     .is-present-day {
-        background-color: lightseagreen;
+        background-color: ${({theme}) => theme.accent2};
     }
 `

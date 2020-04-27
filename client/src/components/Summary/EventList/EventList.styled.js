@@ -9,7 +9,7 @@ export const StyledEventList = styled.section`
 
   .event {
     padding: 0.5rem 0;
-    border-bottom: 3px dashed lightseagreen;
+  border-bottom: ${({theme}) => `3px dashed ${theme.accent2}`};
   }
 
   .event,
@@ -23,7 +23,7 @@ export const StyledEventList = styled.section`
       max-width: 62%;
       font-size: 1.4rem;
       font-weight: 700;
-      color: #000;
+      color: ${({theme}) => theme.textLight};
       line-height: 1;
     }
   }

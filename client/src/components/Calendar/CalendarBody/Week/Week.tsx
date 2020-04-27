@@ -24,7 +24,7 @@ const Week = ({weekNo, openEditor, setOpenEditor, children}: IWeekProps):JSX.Ele
       <div className='card-container'>
         {children}
       </div>
-      <div>
+      <div className='summary-container'>
         {open 
         ? (
           <div style={{margin: '0.4rem 0.7rem'}}>
@@ -48,7 +48,8 @@ const Container = styled.div`
     width: 100%;
     display: flex;
   }
-`
 
-const SummaryContainer = styled.div`
+  .summary-container {
+    min-height: 0;
+  }
 `

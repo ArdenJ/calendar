@@ -27,10 +27,10 @@ const Container = styled.main`
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  background-color: #fff;
-  border: 3px solid black;
+  background-color: ${({theme}) => theme.backgroundLight};
+  border: ${({theme}) => `3px solid ${theme.border}`};
   border-radius: 4px;
-  box-shadow: 10px 10px paleturquoise;
+  box-shadow: ${({theme}) => `10px 10px ${theme.accent}`};
   transform: translateX(-5px);
 
   .header, .body {
