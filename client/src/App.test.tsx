@@ -1,10 +1,10 @@
 import React from 'react'
-import { render, cleanup } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import App from './App'
 import moment from 'moment'
 
 const month = moment()
-  .format('MMMM YYYY')
+  .format(`MMM 'YY`)
   .toString()
 
 test('it renders the correct month on load', () => {
@@ -13,8 +13,4 @@ test('it renders the correct month on load', () => {
   expect(presentMonth).toBeInTheDocument()
 })
 
-test('the summary displays a welcome message', () => {
-  const { getByText } = render(<App />)
-  const welcomeMessage = getByText('Hello')
-  expect(welcomeMessage).toBeInTheDocument()
-})
+

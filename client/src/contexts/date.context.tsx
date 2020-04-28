@@ -3,13 +3,14 @@ import moment from 'moment'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 
-type Action = { type: 'next' } | { type: 'back' }
+type Action = { type: 'next' } | { type: 'back' } | { type: 'reset' }
 type Dispatch = (action: Action) => void
 type State = { date: number }
 type DateProviderProps = { children: React.ReactNode }
 
 const NEXT = 'next'
 const BACK = 'back'
+const RESET = 'reset'
 const DAY = 'day'
 const MONTH = 'month'
 const MonthStateContext = React.createContext<State | undefined>(undefined)
@@ -20,12 +21,13 @@ const MonthDispatchContext = React.createContext<Dispatch | undefined>(
 function monthReducer(state: State, action: Action) {
   switch (action.type) {
     case NEXT: {
-      return {
-        date: state.date + 1,
-      }
+      return { date: state.date + 1 }
     }
     case BACK: {
       return { date: state.date - 1 }
+    }
+    case RESET: {
+      return { date: 0 }
     }
   }
 }
@@ -89,6 +91,7 @@ export {
   BACK,
   DAY,
   MONTH,
+  RESET,
 }
 
 // QUERIES
