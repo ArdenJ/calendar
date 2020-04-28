@@ -4,17 +4,16 @@ import crypto from 'crypto'
 import moment from 'moment'
 
 // Context
-import { useDate } from '../../../contexts/date.context'
+import { useDate } from '../../../../../contexts/date.context'
 
 // Queries
 import {
-  QUERY_EVENT,
   QUERY_EVENTS_ON_DAY,
   QUERY_EVENTS_ON_MONTH,
   MUTATION_ADD_EVENT,
   MUTATION_UPDATE_EVENT,
   MUTATION_DELETE_EVENT,
-} from '../../../queries/queries'
+} from '../../../../../queries/queries'
 
 // Styling
 import { StyledEventList } from './EventList.styled'

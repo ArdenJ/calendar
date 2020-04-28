@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Summary from '../../../Summary/Summary' 
+import Summary from '../Summary/Summary' 
 
 interface IWeekProps {
   weekNo: string,

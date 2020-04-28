@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useEventContext } from '../../contexts/event.context'
+import { useEventContext } from '../../../../contexts/event.context'
 
 import { StyledSummary } from './Summary.styled'
 

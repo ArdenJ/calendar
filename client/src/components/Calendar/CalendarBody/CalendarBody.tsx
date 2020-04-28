@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/react-hooks'
 import moment from 'moment'
 
 import { getStartDate, getAdditionalDays } from '../utils/monthFormat'
+import { splitDayArray } from '../utils/splitArray'
 
 import { useDate } from '../../../contexts/date.context'
 
@@ -85,24 +86,7 @@ const CalendarBody = () => {
     );
   });
 
-  const splitDayArray = (arg: JSX.Element[]) => {
-    let innerArr = arg;
-    let memo: any[] = [];
-    const slicer = (innerArr: JSX.Element[]) => {
-      if (innerArr.length === 0) return memo;
-      for (let day of innerArr) {
-        if (innerArr.indexOf(day) + 1 === rowLength) {
-          let arr = innerArr.slice(0, innerArr.indexOf(day) + 1);
-          memo.push(arr);
-          slicer(innerArr.slice(innerArr.indexOf(day) + 1));
-        }
-      }
-      return memo;
-    };
-    return slicer(innerArr);
-  };
-
-  const splitArray = splitDayArray(dayArray);
+  const splitArray = splitDayArray(dayArray, rowLength);
 
   const weeks = splitArray.map((i, index) => {
     return (

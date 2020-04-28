@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 
 // Context
-import { useEventContext } from '../../contexts/event.context'
+import { useEventContext } from '../../../../contexts/event.context'
 
 interface ICardProps {
   handleOpen: () => void,
