@@ -11,7 +11,9 @@ import Grid from './Grid/Grid'
 import Week from './Week/Week'
 import Day from './Day/Day'
 
-// 7 b'cos 7 days in a week innit
+import { QUERY_EVENTS_ON_MONTH } from '../../../queries/queries'
+
+// 7 days in a week innit
 const rowLength = 7
 
 const CalendarBody = () => {
@@ -126,12 +128,12 @@ const CalendarBody = () => {
 
 export default CalendarBody
 
-const QUERY_EVENTS_ON_MONTH = gql`
-  query($DATE: String!) {
-    eventsByMonth(date: $DATE) {
-      id
-      title
-      date
-    }
-  }
-`
+// const QUERY_EVENTS_ON_MONTH = gql`
+//   query($DATE: String!) {
+//     eventsByMonth(date: $DATE) {
+//       id
+//       title
+//       date
+//     }
+//   }
+// `

@@ -9,7 +9,6 @@ export default function Grid(props: JSX.ElementChildrenAttribute): JSX.Element {
     </div>
   ))
   return (
-    // TODO: This might be better achieved with flexbox rather than grid tbh
     <GridContainer>
       <div className='heading'>
         {headings}  

@@ -4,13 +4,14 @@ import moment from 'moment'
 
 import { useDate, NEXT, BACK } from '../../../contexts/date.context'
 
-import Button from '../../Button/Button'
-import Nav from '../../Nav/Nav'
+import Button from './Button/Button'
+import Nav from './Nav/Nav'
 
 const CalendarHeader = (props: any): JSX.Element => {
   return (
     <StyledCalendarHeader>
       <div className='month-selector'>
+        
       <div className="date">
         <Date />
       </div>
