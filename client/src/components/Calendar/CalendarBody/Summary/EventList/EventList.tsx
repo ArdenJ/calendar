@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import crypto from 'crypto'
 import moment from 'moment'
+import styled from 'styled-components'
 
 // Context
 import { useDate } from '../../../../../contexts/date.context'
@@ -15,28 +16,36 @@ import {
   MUTATION_DELETE_EVENT,
 } from '../../../../../queries/queries'
 
-// Styling
-import { StyledEventList } from './EventList.styled'
-
 // Assets
-import { Cross, Edit } from './icons/SVGS'
+import { Cross, Edit } from './assets/SVGS'
+
+interface IEvent {
+  id: string, 
+  title: string, 
+  date: string, 
+  __typename: "EVENT"
+}
 
 // Helper functions
 function genId(): string {
   return crypto.randomBytes(10).toString('hex')
 }
 
+// FIXME: There is no separation of concerns in this component 
+// and nothing that would even begin to tell you what is happening 
+// when things go wrong. 😫😫😫 it's just bad.
+
 // Component
-const EventList = (props: any): JSX.Element => {
-  // FIXME: .date.date is dumb
+const EventList = (props: {ctx: string}): JSX.Element => {
   const dateCtx = props.ctx
   const monthCtx = moment(useDate(), 'YYYY-MM-DD')
     .format('DD-MM-YYYY')
     .toString()
-  let EVENT_ID: string // TODO: Not a fan of relying on mutability
 
-  function readStore(a: any) {
-    return a.readQuery({
+  const [EVENT_ID, setEVENT_ID] = useState('')
+
+  function readStore(store: any) {
+    return store.readQuery({
       query: QUERY_EVENTS_ON_MONTH,
       variables: { DATE: monthCtx },
     })
@@ -46,7 +55,7 @@ const EventList = (props: any): JSX.Element => {
   const [createEvent] = useMutation(MUTATION_ADD_EVENT, {
     update(store, { data: { createEVENT } }) {
       const newEvent = [createEVENT]
-      const allEventsOnMonth: any = readStore(store)
+      const allEventsOnMonth: {eventsByMonth: any[]} = readStore(store)
       store.writeQuery({
         query: QUERY_EVENTS_ON_MONTH,
         variables: { DATE: monthCtx },
@@ -69,13 +78,13 @@ const EventList = (props: any): JSX.Element => {
   const [updateEvent] = useMutation(MUTATION_UPDATE_EVENT, {
     update(store, { data: { updateEVENT } }) {
       const newEvent = [updateEVENT]
-      const allEventsOnMonth: any = readStore(store)
+      const allEventsOnMonth: {eventsByMonth: any[]} = readStore(store)
       store.writeQuery({
         query: QUERY_EVENTS_ON_MONTH,
         variables: { DATE: monthCtx },
         data: {
           eventsByMonth: allEventsOnMonth.eventsByMonth.filter(
-            (i: any) => i.id !== EVENT_ID
+            (i: IEvent) => i.id !== EVENT_ID
           ).concat(newEvent)
         }
       })
@@ -93,7 +102,7 @@ const EventList = (props: any): JSX.Element => {
   // Remove event mutation
   const [removeEvent] = useMutation(MUTATION_DELETE_EVENT, {
     update(store) {
-      const allEventsOnMonth: any = readStore(store)
+      const allEventsOnMonth: {eventsByMonth: any[]} = readStore(store)
       store.writeQuery({
         query: QUERY_EVENTS_ON_MONTH,
         variables: { DATE: monthCtx },
@@ -121,13 +130,14 @@ const EventList = (props: any): JSX.Element => {
     let { loading, error, data } = useQuery(QUERY_EVENTS_ON_DAY, {
       variables: { DATE: dateCtx },
     })
-    if (loading) {
-      return <>loading...</>
+    if (loading) return <>{'loading...'}</>
+    if (error) {
+      console.error(error)
+      return <>{'Sorry pal, something went wrong'}</>
     }
-    if (error || !loading) console.log(error)
     if (data.eventsByDay !== undefined) {
       const events: JSX.Element[] = data.eventsByDay.map(
-        (i: any, index: number) => {
+        (i: IEvent, index: number) => {
           return (
             <div key={`event_${index}`} className="event" data-id={i.id}>
               <div style={{display: 'flex', alignItems: 'center'}}>
@@ -160,38 +170,30 @@ const EventList = (props: any): JSX.Element => {
   }
 
   // Input component
+  // FIXME: This gets used in a variety of ways and lacks consistency 
   const CreateEvent = ({eventHook}: any) => {
     const [eventUpdate, setEventUpdate] = eventHook
     const ref: any = useRef()
 
-    // child component to avoids hook being called conditionally 
+    // child component to avoid hook being called conditionally 
+    // TODO: type type should be type of "create" | "update" but throws error at compile
     const EventAction = ({type, inputID = genId(), val = ''}:any) => {
-      console.log('from event action: ', type, val)
       useEffect(() => {
         return ref.current.focus()
-      }, [createEvent])
+      })
 
       const [value, setValue] = useState(val)
       
-
-
-      const handleSubmit = (type:{}, id:string, value:string):any => {
-        console.log('on submit: ', type)
+      const handleSubmit = (type:{}, id:string, value:string) => {
         type === 'create' 
         ? (
           createEvent({
             variables: { title: value, date: dateCtx, id: id }
-          }).then(
-            res => console.log(res),
-            err => console.log(err),
-          )
+          })
         ) : (
           updateEvent({
             variables: { title: value, date: dateCtx, id: id }
-          }).then(
-            res => console.log(res),
-            err => console.log(err),
-          )
+          })
         )
       }
 
@@ -208,6 +210,7 @@ const EventList = (props: any): JSX.Element => {
             className='event-input'
             type='text'
             value={value}
+            // @ts-ignore
             onChange={e => setValue(e.target.value)}
             ref={ref}
           />
@@ -252,17 +255,13 @@ const EventList = (props: any): JSX.Element => {
   } 
 
   // delete button component
-  const RemoveEvent = (props: any): JSX.Element => {
+  const RemoveEvent = (props: {id: string, className: string}): JSX.Element => {
     return (
       <div>
         <button
           onClick={() => {
-            console.log(props.id)
-            EVENT_ID = props.id
-            removeEvent({ variables: { id: props.id } }).then(
-              res => console.log(res),
-              err => console.log(err),
-            )
+            setEVENT_ID(props.id)
+            removeEvent({ variables: { id: props.id } })
           }}>
           <Cross />
         </button>
@@ -270,13 +269,19 @@ const EventList = (props: any): JSX.Element => {
     )
   }
 
+  interface IArg {action: string, title: string}
+
   // update button component
-  const UpdateEvent = (props: any): JSX.Element => {
+  const UpdateEvent = (props: {
+    className: string, 
+    id: string, 
+    setEventUpdate: (arg0: IArg) => void, 
+    title: string}): JSX.Element => {
     return (
       <div>
         <button
           onClick={() => {
-            EVENT_ID = props.id
+            setEVENT_ID(props.id)
             props.setEventUpdate({
               action: 'update',
               title: props.title
@@ -297,3 +302,52 @@ const EventList = (props: any): JSX.Element => {
 }
 
 export default EventList
+
+// Styling 
+const StyledEventList = styled.section`
+  box-sizing: border-box;
+  width: 100%;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+
+  .event {
+    padding: 0.5rem 0;
+  border-bottom: ${({theme}) => `3px dashed ${theme.accent2}`};
+  }
+
+  .event,
+  .create-event {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+
+    p, input[type=text] {
+      max-width: 62%;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: ${({theme}) => theme.textLight};
+      line-height: 1;
+    }
+  }
+
+  .create-event {
+    margin-top: 1rem;
+  }
+
+  .create-event-button {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .event-buttons {
+    width: 34%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+    justify-content: space-between;
+    box-shadow: none;
+  }
+`

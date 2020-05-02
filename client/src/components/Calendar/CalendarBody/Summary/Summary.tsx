@@ -1,12 +1,12 @@
 import React from 'react'
+import styled from 'styled-components'
 
 import { useEventContext } from '../../../../contexts/event.context'
 
-import { StyledSummary } from './Summary.styled'
-
 import EventList from './EventList/EventList'
-import { Cross } from './EventList/icons/SVGS'
+import { Cross } from './EventList/assets/SVGS'
 
+// Summary is presentational - it handles the rendering of the event list
 const Summary = (props: any) => {
   const ctx = useEventContext().date.date
 
@@ -21,3 +21,31 @@ const Summary = (props: any) => {
 }
 
 export default Summary
+
+// Styling 
+const StyledSummary = styled.section`
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2rem;
+  border: ${({theme}) => `3px dashed ${theme.accent}`};
+
+  input {
+    background: transparent;
+    border: none;
+  }
+
+  button {
+    border: ${({theme}) => `3px solid ${theme.textLight}`};
+    border-radius: 4px;
+    padding: 0.6rem;
+    background: none;
+    color: ${({theme}) => theme.textLight}
+  }
+
+  svg {
+    height: 1rem;
+    width: 1rem;
+    fill: ${({theme}) => `${theme.textLight} !important`}
+  }
+`
+

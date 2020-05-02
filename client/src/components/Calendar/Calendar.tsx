@@ -5,7 +5,6 @@ import CalendarHeader from './CalendarHeader/CalendarHeader'
 import CalendarBody from './CalendarBody/CalendarBody' 
 
 const Calendar = ({ themeHook }: any): JSX.Element => {
-  console.log('here')
   return (
     <Container>
       <div className="header">

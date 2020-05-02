@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import moment from 'moment'
 
 type EventProviderProps = { children: React.ReactNode }
 interface IState {

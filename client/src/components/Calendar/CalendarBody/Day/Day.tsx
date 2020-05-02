@@ -6,8 +6,6 @@ import { useDate } from '../../../../contexts/date.context'
 import Card from '../Card/Card'
 
 // Day is a container component for the Card components
-// TODO: could this be refactored to be include in the 
-// Card component itself?
 
 interface IDayProps {
   weekNo: string,

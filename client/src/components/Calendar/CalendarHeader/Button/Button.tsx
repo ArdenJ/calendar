@@ -1,12 +1,11 @@
 import React from 'react'
+import styled from 'styled-components'
+
 import {
   useMonthDispatch,
   useMonthState,
   NEXT,
-  BACK
 } from '../../../../contexts/date.context'
-
-import { StyledButton } from './Button.styled'
 
 export default function Button({ click }: any): JSX.Element {
   const dispatch = useMonthDispatch()
@@ -30,3 +29,14 @@ export default function Button({ click }: any): JSX.Element {
     </StyledButton>
   )
 }
+
+const StyledButton = styled.button`
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  color: ${({theme}) => theme.textLight};
+  font-size: 1rem;
+  margin: auto;
+  padding: 0.1rem;
+`
+

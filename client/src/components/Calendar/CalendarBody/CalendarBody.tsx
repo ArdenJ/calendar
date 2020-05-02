@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import moment from 'moment'
 
@@ -39,8 +38,11 @@ const CalendarBody = () => {
   let { loading, error, data } = useQuery(QUERY_EVENTS_ON_MONTH, {
     variables: { DATE: date },
   })
-  if (loading) return <>loading...</>
-  if (error || !loading) console.log(error)
+  if (loading) return <>{'loading...'}</>
+  if (error) {
+    console.error(error)
+    return <>{'Sorry pal, something went wrong'}</>
+  }
 
   interface IEventData {
     id: string,
@@ -69,7 +71,11 @@ const CalendarBody = () => {
     ? 'month'
     : 'hidden'
     return (
-      <div data-testId={`Card_${index}`} className={`item ${inMonth}`} style={{display: 'flex', width: 'calc(100% / 7)', minHeight: '7vh'}}>
+      <div 
+        data-testid={`Card_${index}`} 
+        key={`Card_${index}`} 
+        className={`item ${inMonth}`} 
+        style={{display: 'flex', width: 'calc(100% / 7)', minHeight: '7vh'}}>
       <Day
         key={`Card_${index}`}
         date={moment(start)
@@ -91,6 +97,7 @@ const CalendarBody = () => {
   const weeks = splitArray.map((i, index) => {
     return (
       <Week
+        key={`Week_${index}`}
         weekNo={`week${index + 1}`}
         setOpenEditor={setOpenEditor}
         openEditor={openEditor}
@@ -111,13 +118,3 @@ const CalendarBody = () => {
 }
 
 export default CalendarBody
-
-// const QUERY_EVENTS_ON_MONTH = gql`
-//   query($DATE: String!) {
-//     eventsByMonth(date: $DATE) {
-//       id
-//       title
-//       date
-//     }
-//   }
-// `
