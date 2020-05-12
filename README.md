@@ -1,19 +1,22 @@
 # React/Apollo Calendar
 
-tldr: this is a to-do list attached to some form of calendar
+tldr: this is a to-do list attached to a calendar.
+
+This is a functioning calendar into which users can add, update, read, and delete 
+events relative to the month that is in view. This project was a big learning opportunity 
+in terms of managing state at the application level via React's context API.  
 
 ## Getting Started
 
-The setup is currently a little fiddly. After cloning the repo, open the project and install dependencies in the root and client. Then:
+After cloning the repo, open the project and install dependencies in the root and client. Then:
 
-First terminal:
+in the project root:
 
 ```
-cd .. //back into root
 npm run dev //build dist
 ```
 
-Second terminal:
+on the server
 
 ```
 npm run development 
@@ -27,23 +30,12 @@ Until then the still below links to a short demo video! ⬇️
 
 [![Project as of 02 Feb](./images/27Apr.jpg)](https://drive.google.com/file/d/1eiy_-kSahI7kw28D-icBHoDfMv2voY3T/preview)
 
-## At present:
-
-- On load the calendar renders displaying the correct month ✅
-- Individual date cards contain a list of events ✅
-- Clicking on an individual card will populate the summary with the date and any existing events ✅
-- New events can be added to the list by using the input ✅
-- Events can be removed from the list by pressing the cross ✅
-- Clicking the home button returns to the present month ✅
-- Events can be updated using the pencil button ✅
-
 ## Todos
 
 - Make the project more friendly to different screen sizes 
-- test on something other than Chrome
-- update component composition to avoid prop drilling (looking at you themeHook)
+- update component composition to avoid prop drilling (The themeHook is particularly bad)
 - Make interactions more interesting
-- Tidy up typescript (remove lazy 'anys')
+- Tidy up typescript 
 - Accessibility!
     - Most HTML elements are semantic but as the project has changed the flow is a little skewed.
     - Focus on event list when drawer opens 
